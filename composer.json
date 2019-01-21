@@ -1,5 +1,5 @@
 {
-    "name": "jadu/symphony-singlepoint-client",
+    "name": "jadu/address-finder-client",
     "type": "library",
     "autoload": {
         "psr-4": {

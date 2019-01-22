@@ -3,15 +3,14 @@
 namespace Jadu\AddressFinderClient;
 
 use Jadu\AddressFinderClient\Model\AddressFinderClientConfigurationModel;
-    
+
 /**
-* AddressFinderClient.
-*
-* @author Jadu Ltd.
-*/
+ * AddressFinderClient.
+ *
+ * @author Jadu Ltd.
+ */
 class AddressFinderClient
 {
-      
     /**
      * @var AddressFinderClientConfigurationModel
      */
@@ -19,7 +18,7 @@ class AddressFinderClient
 
     /**
      * @param AddressFinderClientConfigurationModel $configuration
-     */  
+     */
     public function __construct(AddressFinderClientConfigurationModel $configuration)
     {
         $this->configuration = $configuration;
@@ -27,10 +26,9 @@ class AddressFinderClient
 
     /**
      * Place holder Method.
-     */  
+     */
     public function getAllProperties()
     {
-        return "TODO : Get All Properties";
+        return 'TODO : Get All Properties';
     }
 }
-

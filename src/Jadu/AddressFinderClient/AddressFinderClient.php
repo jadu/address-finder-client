@@ -1,20 +1,36 @@
 <?php
-   namespace Jadu\AddressFinderClient; 
 
-  class AddressFinderClient {
+namespace Jadu\AddressFinderClient;
+
+use Jadu\AddressFinderClient\Model\AddressFinderClientConfigurationModel;
     
-        private $configuration;
-        
-        function __construct() {
-            $strJsonFileContents = file_get_contents("Configuration/Configuration.json");
-            $this->configuration = $strJsonFileContents;
-        }
-
-        public function getAllProperties() {
-            return "TODO : Get All Properties";
-        }
+/**
+* AddressFinderClient.
+*
+* @author Jadu Ltd.
+*/
+class AddressFinderClient
+{
       
-        public function getSpecificProperty($identifier) {
-            return "TODO: Get Spefific Property ";
-        }
+    /**
+     * @var AddressFinderClientConfigurationModel
+     */
+    protected $configuration;
+
+    /**
+     * @param AddressFinderClientConfigurationModel $configuration
+     */  
+    public function __construct(AddressFinderClientConfigurationModel $configuration)
+    {
+        $this->configuration = $configuration;
     }
+
+    /**
+     * Place holder Method.
+     */  
+    public function getAllProperties()
+    {
+        return "TODO : Get All Properties";
+    }
+}
+

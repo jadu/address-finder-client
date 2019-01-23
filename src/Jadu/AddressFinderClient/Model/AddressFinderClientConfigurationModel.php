@@ -7,35 +7,35 @@ class AddressFinderClientConfigurationModel
     /**
      * @var string
      */
-    public $ApiKey;
+    public $apiKey;
 
     /**
      * @var string
      */
-    public $BaseUri;
+    public $baseUri;
 
     /**
      * @var string
      */
-    public $StatusPath;
+    public $statusPath;
 
     /**
      * @var string
      */
-    public $PropertyLookupSearchPath;
+    public $propertyLookupSearchPath;
 
     /**
      * @var string
      */
-    public $PropertyLookupFetchPath;
+    public $propertyLookupFetchPath;
 
     /**
      * @var string
      */
-    public $StreetLookupSearchPath;
+    public $streetLookupSearchPath;
 
     /**
      * @var string
      */
-    public $StreetLookupFetchPath;
+    public $streetLookupFetchPath;
 }

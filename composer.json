@@ -1,0 +1,24 @@
+{
+    "name": "jadu/address-finder-client",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "": "src/"
+        }
+    },
+    "repositories": [],
+    "require": {
+        "php": ">=5.6"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "*",
+        "phpunit/phpunit": "~4.8",
+        "mockery/mockery": "*"
+    },
+    "config": {
+        "bin-dir": "vendor/bin",
+        "platform": {
+            "php": "5.6"
+        }
+    }
+}

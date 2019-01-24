@@ -7,13 +7,13 @@ use Jadu\AddressFinderClient\Model\AddressFinderClientConfigurationModel;
 use Http\Mock\Client;
 use PHPUnit_Framework_MockObject_MockObject;
 use PHPUnit_Framework_TestCase;
-use PHPUnit\Framework\TestCase;
-class AddressFinderClientTest extends TestCase
+
+class AddressFinderClientTest extends PHPUnit_Framework_TestCase
 {
     /**
      * PostCode.
      */
-    const TEST_POSTCODE = 'LE19 1RJ';
+    private $testPostcode = 'LE19+1RJ';
 
     /**
      * @var AddressFinderClientConfigurationModel
@@ -32,7 +32,7 @@ class AddressFinderClientTest extends TestCase
         $this->configuration = new AddressFinderClientConfigurationModel();
 
         $this->configuration->baseUri = 'http://localhost:8000';
-        $this->configuration->apiKey = 'testkey';
+        $this->configuration->apiKey = 'Xc31982x53LP98Fsce';
         $this->configuration->statusPath = '/status';
         $this->configuration->propertyLookupSearchPath = '/property/search/{postcode}';
         $this->configuration->propertyLookupFetchPath = '/property/fetch/{identifier}';
@@ -44,8 +44,8 @@ class AddressFinderClientTest extends TestCase
 
     public function testRequests()
     {
-        $response = $this->createMock('Psr\Http\Message\ResponseInterface');
+        $results = $this->addressFinderClient->findPropertiesByPostCode($this->testPostcode);
 
-        $results = $this->addressFinderClient->findPropertiesByPostCode(TEST_POSTCODE);
+        $this->assertEquals($results, "200");
     }
 }

@@ -1,16 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites>
-  <testsuite name="unit" tests="1" assertions="0" failures="0" errors="1" time="0.003216">
-    <testsuite name="Jadu\Tests\AddressFinderClient\AddressFinderClientTest" file="/Users/JordanMoran/Git/Projects/jadu/address-finder-client/tests/unit/AddressFinderClient/AddressFinderClientTest.php" tests="1" assertions="0" failures="0" errors="1" time="0.003216">
-      <testcase name="testRequests" class="Jadu\Tests\AddressFinderClient\AddressFinderClientTest" file="/Users/JordanMoran/Git/Projects/jadu/address-finder-client/tests/unit/AddressFinderClient/AddressFinderClientTest.php" line="45" assertions="0" time="0.003216">
-        <error type="PHPUnit_Framework_ExceptionWrapper">Jadu\Tests\AddressFinderClient\AddressFinderClientTest::testRequests
-Http\Discovery\NotFoundException: No HTTPlug clients found. Make sure to install a package providing "php-http/client-implementation". Example: "php-http/guzzle6-adapter".
-
-/Users/JordanMoran/Git/Projects/jadu/address-finder-client/vendor/php-http/discovery/src/HttpClientDiscovery.php:27
-/Users/JordanMoran/Git/Projects/jadu/address-finder-client/src/Jadu/AddressFinderClient/AddressFinderClient.php:37
-/Users/JordanMoran/Git/Projects/jadu/address-finder-client/tests/unit/AddressFinderClient/AddressFinderClientTest.php:42
-</error>
-      </testcase>
+  <testsuite name="unit" tests="1" assertions="1" failures="0" errors="0" time="0.022777">
+    <testsuite name="Jadu\Tests\AddressFinderClient\AddressFinderClientTest" file="/Users/JordanMoran/Git/Projects/jadu/address-finder-client/tests/unit/AddressFinderClient/AddressFinderClientTest.php" tests="1" assertions="1" failures="0" errors="0" time="0.022777">
+      <testcase name="testRequests" class="Jadu\Tests\AddressFinderClient\AddressFinderClientTest" file="/Users/JordanMoran/Git/Projects/jadu/address-finder-client/tests/unit/AddressFinderClient/AddressFinderClientTest.php" line="45" assertions="1" time="0.022777"/>
     </testsuite>
   </testsuite>
 </testsuites>

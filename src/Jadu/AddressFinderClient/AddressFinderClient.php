@@ -5,7 +5,9 @@ namespace Jadu\AddressFinderClient;
 use Jadu\AddressFinderClient\Model\AddressFinderClientConfigurationModel;
 use Http\Discovery\HttpClientDiscovery;
 use Http\Discovery\MessageFactoryDiscovery;
-
+use GuzzleHttp\Client as GuzzleClient;
+use Http\Adapter\Guzzle6\Client as GuzzleAdapter;
+use GuzzleHttp\Psr7\Request;
 /**
  * AddressFinderClient.
  *
@@ -41,14 +43,24 @@ class AddressFinderClient
     /**
      * @param string $postCode
      * 
-     * @return array|Address
+     * @return Address[]
      */
-    public function findPropertiesByPostCode(string $postCode)
+    public function findPropertiesByPostCode($postcode)
     {
+        $endpointExtenstion = str_replace('{postcode}', $postcode, $this->configuration->propertyLookupSearchPath);
+ 
+        $endpoint = $this->configuration->baseUri .$endpointExtenstion;
         $headers = array('X-Authentication-Key' => $this->configuration->apiKey);
-        $response = $this->httpClient->sendRequest(
-            $messageFactory->createRequest('GET', urlencode($this->configuration->baseUri . str_replace('{postCode}', $postcode, $this->configuration->propertyLookupSearchPath), $headers))
-        );
+        // $response = $this->httpClient->sendRequest(
+        //     $messageFactory->createRequest('GET', urlencode($endpoint, $headers))
+        // );
+
+        $config = ['timeout' => 5, 'headers' => $headers];
+        // ...
+        $guzzle = new GuzzleClient($config);
+        $adapter = new GuzzleAdapter($guzzle);
+        $request = new Request('GET', $endpoint);
+        $response = $adapter->sendRequest($request);
 
         if ($response->getStatusCode() == 200)
         {

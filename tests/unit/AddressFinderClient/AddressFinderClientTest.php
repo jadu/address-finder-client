@@ -2,13 +2,13 @@
 
 namespace Jadu\Tests\AddressFinderClient;
 
-use Jadu\AddressFinderClient;
+use Jadu\AddressFinderClient\AddressFinderClient;
 use Jadu\AddressFinderClient\Model\AddressFinderClientConfigurationModel;
 use Http\Mock\Client;
 use PHPUnit_Framework_MockObject_MockObject;
 use PHPUnit_Framework_TestCase;
-
-class AddressFinderClientTest extends PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+class AddressFinderClientTest extends TestCase
 {
     /**
      * PostCode.
@@ -39,7 +39,7 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
         $this->configuration->streetLookupSearchPath = '/street/search/{term}';
         $this->configuration->streetLookupFetchPath = '/street/fetch/{identifier}';
 
-        $this->addressFinderClient = new AddressFinderClient(configuration);
+        $this->addressFinderClient = new AddressFinderClient($this->configuration);
     }
 
     public function testRequests()

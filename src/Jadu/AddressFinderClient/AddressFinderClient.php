@@ -52,8 +52,6 @@ class AddressFinderClient
                 $results = $this->mapProperties($response->getBody());
 
                 return $results;
-            } else {
-                return 'Error';
             }
         } catch (\Exception $e) {
             return 'Error';

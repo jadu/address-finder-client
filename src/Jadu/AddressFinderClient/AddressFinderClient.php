@@ -2,12 +2,12 @@
 
 namespace Jadu\AddressFinderClient;
 
-use Jadu\AddressFinderClient\Model\AddressFinderClientConfigurationModel;
-use Http\Discovery\HttpClientDiscovery;
-use Http\Discovery\MessageFactoryDiscovery;
-use GuzzleHttp\Client as GuzzleClient;
-use Http\Adapter\Guzzle6\Client as GuzzleAdapter;
+use GuzzleHttp\Client as HttpClient;
 use GuzzleHttp\Psr7\Request;
+use Http\Adapter\Guzzle6\Client as HttpAdapter;
+use Jadu\AddressFinderClient\Model\AddressFinderClientConfigurationModel;
+use Jadu\AddressFinderClient\Model\Property as PropertyModel;
+
 /**
  * AddressFinderClient.
  *
@@ -21,53 +21,65 @@ class AddressFinderClient
     protected $configuration;
 
     /**
-     * @var HttpClient
-     */
-    protected $httpClient;
-
-    /**
-     * @var MessageFactory
-     */
-    protected $messageFactory;
-
-    /**
      * @param AddressFinderClientConfigurationModel $configuration
      */
     public function __construct(AddressFinderClientConfigurationModel $configuration)
     {
         $this->configuration = $configuration;
-        $this->httpClient = HttpClientDiscovery::find();
-        $this->messageFactory = MessageFactoryDiscovery::find();
     }
 
     /**
-     * @param string $postCode
-     * 
+     * @param string $postcode
+     *
      * @return Address[]
      */
     public function findPropertiesByPostCode($postcode)
     {
         $endpointExtenstion = str_replace('{postcode}', $postcode, $this->configuration->propertyLookupSearchPath);
- 
-        $endpoint = $this->configuration->baseUri .$endpointExtenstion;
-        $headers = array('X-Authentication-Key' => $this->configuration->apiKey);
-        // $response = $this->httpClient->sendRequest(
-        //     $messageFactory->createRequest('GET', urlencode($endpoint, $headers))
-        // );
+        $endpoint = $this->configuration->baseUri . $endpointExtenstion;
 
+        $headers = ['X-Authentication-Key' => $this->configuration->apiKey];
         $config = ['timeout' => 5, 'headers' => $headers];
-        // ...
-        $guzzle = new GuzzleClient($config);
-        $adapter = new GuzzleAdapter($guzzle);
-        $request = new Request('GET', $endpoint);
-        $response = $adapter->sendRequest($request);
 
-        if ($response->getStatusCode() == 200)
-        {
-            // deserialise and return
-            return '200';
+        try {
+            $httpClient = new HttpClient($config);
+            $httpAdapter = new HttpAdapter($httpClient);
+            $request = new Request('GET', $endpoint);
+
+            $response = $httpAdapter->sendRequest($request);
+
+            if (200 == $response->getStatusCode()) {
+                $results = $this->mapProperties($response->getBody());
+
+                return $results;
+            } else {
+                return 'Error';
+            }
+        } catch (\Exception $e) {
+            return 'Error';
         }
 
         return 'Error';
+    }
+
+    /**
+     * @param string $responseBody
+     *
+     * @return PropertyModel[]
+     */
+    private function mapProperties($responseBody)
+    {
+        $body = json_decode($responseBody, true);
+        $results = [];
+
+        foreach ($body as $properties) {
+            foreach ($properties as $property) {
+                $propertiesModel = new PropertyModel();
+                $propertiesModel->mapData($property);
+                array_push($results, $propertiesModel);
+            }
+        }
+
+        return $results;
     }
 }

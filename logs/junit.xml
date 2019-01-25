@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites>
-  <testsuite name="unit" tests="1" assertions="1" failures="0" errors="0" time="0.022777">
-    <testsuite name="Jadu\Tests\AddressFinderClient\AddressFinderClientTest" file="/Users/JordanMoran/Git/Projects/jadu/address-finder-client/tests/unit/AddressFinderClient/AddressFinderClientTest.php" tests="1" assertions="1" failures="0" errors="0" time="0.022777">
-      <testcase name="testRequests" class="Jadu\Tests\AddressFinderClient\AddressFinderClientTest" file="/Users/JordanMoran/Git/Projects/jadu/address-finder-client/tests/unit/AddressFinderClient/AddressFinderClientTest.php" line="45" assertions="1" time="0.022777"/>
+  <testsuite name="unit" tests="3" assertions="3" failures="0" errors="0" time="0.087575">
+    <testsuite name="Jadu\Tests\AddressFinderClient\AddressFinderClientTest" file="/Users/JordanMoran/Git/Projects/jadu/address-finder-client/tests/unit/AddressFinderClient/AddressFinderClientTest.php" tests="3" assertions="3" failures="0" errors="0" time="0.087575">
+      <testcase name="testRequestExpectingValidResponse" class="Jadu\Tests\AddressFinderClient\AddressFinderClientTest" file="/Users/JordanMoran/Git/Projects/jadu/address-finder-client/tests/unit/AddressFinderClient/AddressFinderClientTest.php" line="21" assertions="1" time="0.038903"/>
+      <testcase name="testRequestExpectingEmptyResponse" class="Jadu\Tests\AddressFinderClient\AddressFinderClientTest" file="/Users/JordanMoran/Git/Projects/jadu/address-finder-client/tests/unit/AddressFinderClient/AddressFinderClientTest.php" line="40" assertions="1" time="0.022304"/>
+      <testcase name="testRequestExpecting401Error" class="Jadu\Tests\AddressFinderClient\AddressFinderClientTest" file="/Users/JordanMoran/Git/Projects/jadu/address-finder-client/tests/unit/AddressFinderClient/AddressFinderClientTest.php" line="57" assertions="1" time="0.026368"/>
     </testsuite>
   </testsuite>
 </testsuites>

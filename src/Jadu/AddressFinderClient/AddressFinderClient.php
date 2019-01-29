@@ -2,9 +2,8 @@
 
 namespace Jadu\AddressFinderClient;
 
-use GuzzleHttp\Client as HttpClient;
+use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
-use Http\Adapter\Guzzle6\Client as HttpAdapter;
 use Jadu\AddressFinderClient\Model\AddressFinderClientConfigurationModel;
 use Jadu\AddressFinderClient\Model\Property as PropertyModel;
 
@@ -21,11 +20,18 @@ class AddressFinderClient
     protected $configuration;
 
     /**
-     * @param AddressFinderClientConfigurationModel $configuration
+     * @var Client
      */
-    public function __construct(AddressFinderClientConfigurationModel $configuration)
+    protected $client;
+
+    /**
+     * @param AddressFinderClientConfigurationModel $configuration
+     * @param HttpAdapter $httpAdapter
+     */
+    public function __construct(AddressFinderClientConfigurationModel $configuration, Client $client)
     {
         $this->configuration = $configuration;
+        $this->client = $client;
     }
 
     /**
@@ -35,25 +41,24 @@ class AddressFinderClient
      */
     public function findPropertiesByPostCode($postcode)
     {
-        $endpointExtenstion = str_replace('{postcode}', $postcode, $this->configuration->propertyLookupSearchPath);
+        $endpointExtenstion = str_replace('{postcode}', urlencode($postcode), $this->configuration->propertyLookupSearchPath);
         $endpoint = $this->configuration->baseUri . $endpointExtenstion;
 
-        $headers = ['X-Authentication-Key' => $this->configuration->apiKey];
-        $config = ['timeout' => 5, 'headers' => $headers];
-
         try {
-            $httpClient = new HttpClient($config);
-            $httpAdapter = new HttpAdapter($httpClient);
-            $request = new Request('GET', $endpoint);
 
-            $response = $httpAdapter->sendRequest($request);
-
+            $response = $this->client->request('GET', $endpoint);
+             $responseBody =$response->getBody();
+            
             if (200 == $response->getStatusCode()) {
-                $results = $this->mapProperties($response->getBody());
-
+                $results = $this->mapProperties($responseBody->getContents());
                 return $results;
             }
+            else{
+                echo 'null';
+                return null;
+            }
         } catch (\Exception $e) {
+            echo "Caught Exception:" . $e->getMessage();
             return 'Error';
         }
 
@@ -68,16 +73,17 @@ class AddressFinderClient
     private function mapProperties($responseBody)
     {
         $body = json_decode($responseBody, true);
+        
         $results = [];
 
         foreach ($body as $properties) {
+          
             foreach ($properties as $property) {
                 $propertiesModel = new PropertyModel();
                 $propertiesModel->mapData($property);
                 array_push($results, $propertiesModel);
             }
         }
-
         return $results;
     }
 }

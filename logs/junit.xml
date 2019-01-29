@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites>
-  <testsuite name="unit" tests="3" assertions="3" failures="0" errors="0" time="0.050739">
-    <testsuite name="Jadu\Tests\AddressFinderClient\AddressFinderClientTest" file="/Users/JordanMoran/Git/Projects/jadu/address-finder-client/tests/unit/AddressFinderClient/AddressFinderClientTest.php" tests="3" assertions="3" failures="0" errors="0" time="0.050739">
-      <testcase name="testRequestExpectingValidResponse" class="Jadu\Tests\AddressFinderClient\AddressFinderClientTest" file="/Users/JordanMoran/Git/Projects/jadu/address-finder-client/tests/unit/AddressFinderClient/AddressFinderClientTest.php" line="17" assertions="1" time="0.023796"/>
-      <testcase name="testRequestExpectingEmptyResponse" class="Jadu\Tests\AddressFinderClient\AddressFinderClientTest" file="/Users/JordanMoran/Git/Projects/jadu/address-finder-client/tests/unit/AddressFinderClient/AddressFinderClientTest.php" line="34" assertions="1" time="0.011848"/>
-      <testcase name="testRequestExpecting401Error" class="Jadu\Tests\AddressFinderClient\AddressFinderClientTest" file="/Users/JordanMoran/Git/Projects/jadu/address-finder-client/tests/unit/AddressFinderClient/AddressFinderClientTest.php" line="51" assertions="1" time="0.015095"/>
+  <testsuite name="unit" tests="3" assertions="3" failures="0" errors="0" time="0.023283">
+    <testsuite name="Jadu\Tests\AddressFinderClient\AddressFinderClientTest" file="/Users/JordanMoran/Git/Projects/jadu/address-finder-client/tests/unit/AddressFinderClient/AddressFinderClientTest.php" tests="3" assertions="3" failures="0" errors="0" time="0.023283">
+      <testcase name="testRequestExpectingValidResponse" class="Jadu\Tests\AddressFinderClient\AddressFinderClientTest" file="/Users/JordanMoran/Git/Projects/jadu/address-finder-client/tests/unit/AddressFinderClient/AddressFinderClientTest.php" line="24" assertions="1" time="0.017977"/>
+      <testcase name="testRequestExpectingEmptyResponse" class="Jadu\Tests\AddressFinderClient\AddressFinderClientTest" file="/Users/JordanMoran/Git/Projects/jadu/address-finder-client/tests/unit/AddressFinderClient/AddressFinderClientTest.php" line="46" assertions="1" time="0.001017"/>
+      <testcase name="testRequestExpecting401Error" class="Jadu\Tests\AddressFinderClient\AddressFinderClientTest" file="/Users/JordanMoran/Git/Projects/jadu/address-finder-client/tests/unit/AddressFinderClient/AddressFinderClientTest.php" line="68" assertions="1" time="0.004289">
+        <system-out>Caught Exception:Client error: `GET http://localhost:8000/property/search/LE19%2B1RJ` resulted in a `401 Unauthorized` response:
+{"properties":[]}
+</system-out>
+      </testcase>
     </testsuite>
   </testsuite>
 </testsuites>

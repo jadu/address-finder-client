@@ -4,4 +4,4 @@
 /.*/.DS_Store
 /logs/
 .DS_Store
-.junit.xml
+/junit.xml

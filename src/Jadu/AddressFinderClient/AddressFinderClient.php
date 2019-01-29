@@ -3,7 +3,6 @@
 namespace Jadu\AddressFinderClient;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\Psr7\Request;
 use Jadu\AddressFinderClient\Model\AddressFinderClientConfigurationModel;
 use Jadu\AddressFinderClient\Model\Property as PropertyModel;
 
@@ -45,20 +44,15 @@ class AddressFinderClient
         $endpoint = $this->configuration->baseUri . $endpointExtenstion;
 
         try {
-
             $response = $this->client->request('GET', $endpoint);
-             $responseBody =$response->getBody();
-            
+            $responseBody = $response->getBody();
+
             if (200 == $response->getStatusCode()) {
                 $results = $this->mapProperties($responseBody->getContents());
+
                 return $results;
             }
-            else{
-                echo 'null';
-                return null;
-            }
         } catch (\Exception $e) {
-            echo "Caught Exception:" . $e->getMessage();
             return 'Error';
         }
 
@@ -73,17 +67,17 @@ class AddressFinderClient
     private function mapProperties($responseBody)
     {
         $body = json_decode($responseBody, true);
-        
+
         $results = [];
 
         foreach ($body as $properties) {
-          
             foreach ($properties as $property) {
                 $propertiesModel = new PropertyModel();
                 $propertiesModel->mapData($property);
                 array_push($results, $propertiesModel);
             }
         }
+
         return $results;
     }
 }

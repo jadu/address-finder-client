@@ -2,16 +2,14 @@
 
 namespace Jadu\Tests\AddressFinderClient;
 
-use Jadu\AddressFinderClient\AddressFinderClient;
-use Jadu\AddressFinderClient\Model\AddressFinderClientConfigurationModel;
-use Jadu\AddressFinderClient\Model\Property;
-use Jadu\AddressFinderClient\Model\ArrayOfProperty;
 use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
-use GuzzleHttp\Psr7\Request;
-use GuzzleHttp\Exception\RequestException;
+use Jadu\AddressFinderClient\AddressFinderClient;
+use Jadu\AddressFinderClient\Model\AddressFinderClientConfigurationModel;
+use Jadu\AddressFinderClient\Model\ArrayOfProperty;
+use Jadu\AddressFinderClient\Model\Property;
 use PHPUnit_Framework_TestCase;
 
 class AddressFinderClientTest extends PHPUnit_Framework_TestCase
@@ -24,10 +22,10 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
     public function testRequestExpectingValidResponse()
     {
         //Arrange
-        $expectedResult = array($this->createTestPropertyOne(), $this->createTestPropertyTwo());
+        $expectedResult = [$this->createTestPropertyOne(), $this->createTestPropertyTwo()];
         $responseResult = new ArrayOfProperty();
-        $responseResult->properties =  $expectedResult;
-        
+        $responseResult->properties = $expectedResult;
+
         $validPostcode = 'LE19+1RJ';
 
         $configuration = $this->createConfiguration();
@@ -38,53 +36,53 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
 
         //Act
         $results = $addressFinderClient->findPropertiesByPostCode($validPostcode);
-        
+
         //Assert
         $this->assertEquals($results, $expectedResult);
     }
 
     public function testRequestExpectingEmptyResponse()
     {
-         //Arrange
-         $expectedResult = array();
-         $responseResult = new ArrayOfProperty();
-         $responseResult->properties = array();
-         
-         $validPostcode = 'LE19+1RJ';
- 
-         $configuration = $this->createConfiguration();
- 
-         $client = $this->createClient(200, $responseResult);
- 
-         $addressFinderClient = new AddressFinderClient($configuration, $client);
- 
-         //Act
-         $results = $addressFinderClient->findPropertiesByPostCode($validPostcode);
-         
-         //Assert
-         $this->assertEquals($results, $expectedResult);
+        //Arrange
+        $expectedResult = [];
+        $responseResult = new ArrayOfProperty();
+        $responseResult->properties = [];
+
+        $validPostcode = 'LE19+1RJ';
+
+        $configuration = $this->createConfiguration();
+
+        $client = $this->createClient(200, $responseResult);
+
+        $addressFinderClient = new AddressFinderClient($configuration, $client);
+
+        //Act
+        $results = $addressFinderClient->findPropertiesByPostCode($validPostcode);
+
+        //Assert
+        $this->assertEquals($results, $expectedResult);
     }
 
     public function testRequestExpecting401Error()
     {
-         //Arrange
-         $expectedResult = "Error";
-         $responseResult = new ArrayOfProperty();
-         $responseResult->properties = array();
-         
-         $validPostcode = 'LE19+1RJ';
- 
-         $configuration = $this->createConfiguration();
- 
-         $client = $this->createClient(401, $responseResult);
- 
-         $addressFinderClient = new AddressFinderClient($configuration, $client);
- 
-         //Act
-         $results = $addressFinderClient->findPropertiesByPostCode($validPostcode);
-         
-         //Assert
-         $this->assertEquals($results, $expectedResult);
+        //Arrange
+        $expectedResult = 'Error';
+        $responseResult = new ArrayOfProperty();
+        $responseResult->properties = [];
+
+        $validPostcode = 'LE19+1RJ';
+
+        $configuration = $this->createConfiguration();
+
+        $client = $this->createClient(401, $responseResult);
+
+        $addressFinderClient = new AddressFinderClient($configuration, $client);
+
+        //Act
+        $results = $addressFinderClient->findPropertiesByPostCode($validPostcode);
+
+        //Assert
+        $this->assertEquals($results, $expectedResult);
     }
 
     private function createTestPropertyOne()
@@ -125,12 +123,13 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
         return $property;
     }
 
-    private function createClient($statusCode, $expectedResults) 
+    private function createClient($statusCode, $expectedResults)
     {
         $response = new Response($statusCode, [], json_encode($expectedResults));
         $mock = new MockHandler([$response]);
         $handler = HandlerStack::create($mock);
         $client = new Client(['handler' => $handler]);
+
         return $client;
     }
 

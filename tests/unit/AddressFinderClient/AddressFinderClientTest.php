@@ -15,6 +15,8 @@ use PHPUnit_Framework_TestCase;
 
 class AddressFinderClientTest extends PHPUnit_Framework_TestCase
 {
+    private $validPostcode = 'LE19+1RJ';
+
     protected function setUp()
     {
         parent::setUp();
@@ -27,16 +29,12 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
         $responseResult = new ArrayOfProperty();
         $responseResult->properties = $expectedResult;
 
-        $validPostcode = 'LE19+1RJ';
-
-        $configuration = $this->createConfiguration();
-
         $client = $this->createClient(200, $responseResult);
 
-        $addressFinderClient = new AddressFinderClient($configuration, $client);
+        $addressFinderClient = new AddressFinderClient($this->createConfiguration(), $client);
 
         //Act
-        $results = $addressFinderClient->findPropertiesByPostCode($validPostcode);
+        $results = $addressFinderClient->findPropertiesByPostCode($this->validPostcode);
 
         //Assert
         $this->assertEquals($results, $expectedResult);
@@ -49,48 +47,36 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
         $responseResult = new ArrayOfProperty();
         $responseResult->properties = [];
 
-        $validPostcode = 'LE19+1RJ';
-
-        $configuration = $this->createConfiguration();
-
         $client = $this->createClient(200, $responseResult);
 
-        $addressFinderClient = new AddressFinderClient($configuration, $client);
+        $addressFinderClient = new AddressFinderClient($this->createConfiguration(), $client);
 
         //Act
-        $results = $addressFinderClient->findPropertiesByPostCode($validPostcode);
+        $results = $addressFinderClient->findPropertiesByPostCode($this->validPostcode);
 
         //Assert
         $this->assertEquals($results, $expectedResult);
     }
 
-    public function testRequestExpecting401Error()
+    public function testRequestExpecting401Exception()
     {
-      
         //Arrange
         $expectedStatusCode = 401;
         $responseResult = new ArrayOfProperty();
         $responseResult->properties = [];
 
-        $validPostcode = 'LE19+1RJ';
-
-        $configuration = $this->createConfiguration();
-
         $client = $this->createClient($expectedStatusCode, $responseResult);
 
-        $addressFinderClient = new AddressFinderClient($configuration, $client);
-       
+        $addressFinderClient = new AddressFinderClient($this->createConfiguration(), $client);
+
         $exception = null;
+
         //Act
-        try 
-        {
-            $results = $addressFinderClient->findPropertiesByPostCode($validPostcode);
-        } 
-        catch(AddressFinderHttpResponseException $ex)
-        {
+        try {
+            $results = $addressFinderClient->findPropertiesByPostCode($this->validPostcode);
+        } catch (AddressFinderHttpResponseException $ex) {
             $exception = $ex;
         }
-       
 
         //Assert
         $this->assertEquals($exception->getStatusCode(), $expectedStatusCode);
@@ -144,11 +130,6 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
         return $client;
     }
 
-    /**
-     * @param string $apiKey
-     *
-     * @return AddressFinderClientConfigurationModel
-     */
     private function createConfiguration()
     {
         $configuration = new AddressFinderClientConfigurationModel();

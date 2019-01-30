@@ -7,6 +7,7 @@ use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
 use Jadu\AddressFinderClient\AddressFinderClient;
+use Jadu\AddressFinderClient\Exception\AddressFinderHttpResponseException;
 use Jadu\AddressFinderClient\Model\AddressFinderClientConfigurationModel;
 use Jadu\AddressFinderClient\Model\ArrayOfProperty;
 use Jadu\AddressFinderClient\Model\Property;
@@ -65,8 +66,9 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
 
     public function testRequestExpecting401Error()
     {
+      
         //Arrange
-        $expectedResult = 'Error';
+        $expectedStatusCode = 401;
         $responseResult = new ArrayOfProperty();
         $responseResult->properties = [];
 
@@ -74,15 +76,24 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
 
         $configuration = $this->createConfiguration();
 
-        $client = $this->createClient(401, $responseResult);
+        $client = $this->createClient($expectedStatusCode, $responseResult);
 
         $addressFinderClient = new AddressFinderClient($configuration, $client);
-
+       
+        $exception = null;
         //Act
-        $results = $addressFinderClient->findPropertiesByPostCode($validPostcode);
+        try 
+        {
+            $results = $addressFinderClient->findPropertiesByPostCode($validPostcode);
+        } 
+        catch(AddressFinderHttpResponseException $ex)
+        {
+            $exception = $ex;
+        }
+       
 
         //Assert
-        $this->assertEquals($results, $expectedResult);
+        $this->assertEquals($exception->getStatusCode(), $expectedStatusCode);
     }
 
     private function createTestPropertyOne()

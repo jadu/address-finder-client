@@ -3,6 +3,9 @@
 namespace Jadu\AddressFinderClient;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\RequestException;
+use Jadu\AddressFinderClient\Exception\AddressFinderException;
+use Jadu\AddressFinderClient\Exception\AddressFinderHttpResponseException;
 use Jadu\AddressFinderClient\Model\AddressFinderClientConfigurationModel;
 use Jadu\AddressFinderClient\Model\Property as PropertyModel;
 
@@ -47,16 +50,21 @@ class AddressFinderClient
             $response = $this->client->request('GET', $endpoint);
             $responseBody = $response->getBody();
 
-            if (200 == $response->getStatusCode()) {
+            $statusCode = $response->getStatusCode();
+            if (200 == $statusCode) {
                 $results = $this->mapProperties($responseBody->getContents());
 
                 return $results;
+            } else {
+                // Throw Exception for any errors less than a 400 status code.
+                throw new AddressFinderHttpResponseException($statusCode);
             }
+        } catch (RequestException $e) {
+            // Throw Exception for any errors grater than than a 400 status code.
+            throw new AddressFinderHttpResponseException($e->getResponse()->getStatusCode());
         } catch (\Exception $e) {
-            return 'Error';
+            throw new AddressFinderException();
         }
-
-        return 'Error';
     }
 
     /**

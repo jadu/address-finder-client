@@ -6,8 +6,8 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 use Jadu\AddressFinderClient\Exception\AddressFinderException;
 use Jadu\AddressFinderClient\Exception\AddressFinderHttpResponseException;
+use Jadu\AddressFinderClient\Helpers\ModelMapper as Mapper;
 use Jadu\AddressFinderClient\Model\AddressFinderClientConfigurationModel;
-use Jadu\AddressFinderClient\Model\Property as PropertyModel;
 
 /**
  * AddressFinderClient.
@@ -26,6 +26,8 @@ class AddressFinderClient
      */
     protected $client;
 
+    protected $mapper;
+
     /**
      * @param AddressFinderClientConfigurationModel $configuration
      * @param HttpAdapter $httpAdapter
@@ -34,6 +36,7 @@ class AddressFinderClient
     {
         $this->configuration = $configuration;
         $this->client = $client;
+        $this->mapper = new Mapper();
     }
 
     /**
@@ -43,16 +46,16 @@ class AddressFinderClient
      */
     public function findPropertiesByPostCode($postcode)
     {
-        $endpointExtenstion = str_replace('{postcode}', urlencode($postcode), $this->configuration->propertyLookupSearchPath);
-        $endpoint = $this->configuration->baseUri . $endpointExtenstion;
-
         try {
+            $endpointExtenstion = str_replace('{postcode}', urlencode($postcode), $this->configuration->propertyLookupSearchPath);
+            $endpoint = $this->configuration->baseUri . $endpointExtenstion;
+
             $response = $this->client->request('GET', $endpoint);
             $responseBody = $response->getBody();
 
             $statusCode = $response->getStatusCode();
             if (200 == $statusCode) {
-                $results = $this->mapProperties($responseBody->getContents());
+                $results = $this->mapper->mapFindResponse($responseBody->getContents());
 
                 return $results;
             } else {
@@ -62,30 +65,110 @@ class AddressFinderClient
         } catch (RequestException $e) {
             // Throw Exception for any errors grater than than a 400 status code.
             throw new AddressFinderHttpResponseException($e->getResponse()->getStatusCode());
+        } catch (AddressFinderHttpResponseException $ex) {
+            throw $ex;
         } catch (\Exception $e) {
             throw new AddressFinderException();
         }
     }
 
     /**
-     * @param string $responseBody
+     * @param string $identifier
      *
-     * @return PropertyModel[]
+     * @return Address
      */
-    private function mapProperties($responseBody)
+    public function getPropertyByIdentifier($identifier)
     {
-        $body = json_decode($responseBody, true);
+        try {
+            $endpointExtenstion = str_replace('{identifier}', urlencode($identifier), $this->configuration->propertyLookupFetchPath);
+            $endpoint = $this->configuration->baseUri . $endpointExtenstion;
 
-        $results = [];
+            $response = $this->client->request('GET', $endpoint);
+            $responseBody = $response->getBody();
 
-        foreach ($body as $properties) {
-            foreach ($properties as $property) {
-                $propertiesModel = new PropertyModel();
-                $propertiesModel->mapData($property);
-                array_push($results, $propertiesModel);
+            $statusCode = $response->getStatusCode();
+            if (200 == $statusCode) {
+                $result = $this->mapper->mapGetResponse($responseBody->getContents());
+
+                return $result;
+            } else {
+                // Throw Exception for any errors less than a 400 status code.
+                throw new AddressFinderHttpResponseException($statusCode);
             }
+        } catch (RequestException $e) {
+            // Throw Exception for any errors grater than than a 400 status code.
+            throw new AddressFinderHttpResponseException($e->getResponse()->getStatusCode());
+        } catch (AddressFinderHttpResponseException $ex) {
+            throw $ex;
+        } catch (\Exception $e) {
+            throw new AddressFinderException();
         }
+    }
 
-        return $results;
+    /**
+     * @param string $term
+     *
+     * @return Address[]
+     */
+    public function findStreetsByTerm($term)
+    {
+        try {
+            $endpointExtenstion = str_replace('{term}', urlencode($postcode), $this->configuration->streetLookupSearchPath);
+            $endpoint = $this->configuration->baseUri . $endpointExtenstion;
+
+            $response = $this->client->request('GET', $endpoint);
+            $responseBody = $response->getBody();
+
+            $statusCode = $response->getStatusCode();
+            if (200 == $statusCode) {
+                //This is probably not the right mapping method
+                $results = $this->mapper->mapFindResponse($responseBody->getContents());
+
+                return $results;
+            } else {
+                // Throw Exception for any errors less than a 400 status code.
+                throw new AddressFinderHttpResponseException($statusCode);
+            }
+        } catch (RequestException $e) {
+            // Throw Exception for any errors grater than than a 400 status code.
+            throw new AddressFinderHttpResponseException($e->getResponse()->getStatusCode());
+        } catch (AddressFinderHttpResponseException $ex) {
+            throw $ex;
+        } catch (\Exception $e) {
+            throw new AddressFinderException();
+        }
+    }
+
+    /**
+     * @param string $identifier
+     *
+     * @return Address
+     */
+    public function getStreetByIdentifier($identifier)
+    {
+        try {
+            $endpointExtenstion = str_replace('{identifier}', urlencode($identifier), $this->configuration->streetLookupFetchPath);
+            $endpoint = $this->configuration->baseUri . $endpointExtenstion;
+
+            $response = $this->client->request('GET', $endpoint);
+            $responseBody = $response->getBody();
+
+            $statusCode = $response->getStatusCode();
+            if (200 == $statusCode) {
+                $result = $this->mapper->mapGetResponse($responseBody->getContents());
+
+                return $result;
+            } else {
+                // Throw Exception for any errors less than a 400 status code.
+                throw new AddressFinderHttpResponseException($statusCode);
+            }
+        } catch (RequestException $e) {
+            // Throw Exception for any errors grater than than a 400 status code.
+            throw new AddressFinderHttpResponseException($e->getResponse()->getStatusCode());
+        } catch (AddressFinderHttpResponseException $ex) {
+            throw $ex;
+        } catch (\Exception $e) {
+            throw new AddressFinderException();
+        }
     }
 }

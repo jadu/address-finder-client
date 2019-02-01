@@ -11,4 +11,8 @@ use Exception;
  */
 class AddressFinderMappingException extends Exception
 {
+    public function setMessage($message)
+    {
+        $this->message = $message;
+    }
 }

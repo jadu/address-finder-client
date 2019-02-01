@@ -3,6 +3,7 @@
 namespace Jadu\AddressFinderClient\Helpers;
 
 use Jadu\AddressFinderClient\Exception\AddressFinderMappingException;
+use Jadu\AddressFinderClient\Exception\AddressFinderParsingException;
 use Jadu\AddressFinderClient\Model\Address\Model\Address as PropertyModel;
 
 /**
@@ -21,6 +22,13 @@ class ModelMapper
     {
         try {
             $body = json_decode($responseBody, true);
+
+            if (is_null($body)) {
+                $exception = new AddressFinderParsingException();
+                $exception->setMessage('There was an error when trying to parse the $responseBody to json.');
+                throw $exception;
+            }
+
             $results = [];
 
             foreach ($body as $properties) {
@@ -36,8 +44,14 @@ class ModelMapper
             }
 
             return $results;
+        } catch (AddressFinderParsingException $e) {
+            throw $e;
+        } catch (AddressFinderMappingException $e) {
+            throw $e;
         } catch (\Exception $e) {
-            throw new AddressFinderMappingException();
+            $exception = new AddressFinderMappingException();
+            $exception->setMessage($e->getMessage());
+            throw $exception;
         }
     }
 
@@ -50,6 +64,13 @@ class ModelMapper
     {
         try {
             $body = json_decode($responseBody, true);
+
+            if (is_null($body)) {
+                $exception = new AddressFinderParsingException();
+                $exception->setMessage('There was an error when trying to parse the $responseBody to json.');
+                throw $exception;
+            }
+
             $propertiesModel = new PropertyModel();
 
             foreach ($body as $key => $val) {
@@ -57,8 +78,14 @@ class ModelMapper
             }
 
             return $propertiesModel;
+        } catch (AddressFinderParsingException $e) {
+            throw $e;
+        } catch (AddressFinderMappingException $e) {
+            throw $e;
         } catch (\Exception $e) {
-            throw new AddressFinderMappingException();
+            $exception = new AddressFinderMappingException();
+            $exception->setMessage($e->getMessage());
+            throw $exception;
         }
     }
 
@@ -81,7 +108,9 @@ class ModelMapper
                 return $reflectedProperty->setValue($class, $value);
             }
         } catch (\Exception $e) {
-            throw new AddressFinderMappingException();
+            $exception = new AddressFinderMappingException();
+            $exception->setMessage($e->getMessage());
+            throw $exception;
         }
     }
 }

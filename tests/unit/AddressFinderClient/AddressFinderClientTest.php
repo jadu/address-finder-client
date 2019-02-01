@@ -33,10 +33,10 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
         $responseData = new ArrayOfTestAddress();
         $responseData->properties = [$this->createTestPropertyOne(), $this->createTestPropertyTwo()];
 
-        $addressFinderClient = new AddressFinderClient($this->createConfiguration(), $this->createClient(200, $responseData));
+        $addressFinderClient = new AddressFinderClient($this->createClient(200, $responseData));
 
         //Act
-        $results = $addressFinderClient->findPropertiesByPostCode($this->validPostcode);
+        $results = $addressFinderClient->findPropertiesByPostCode($this->createConfiguration(), $this->validPostcode);
 
         //Assert
         $this->assertSame(count($results), count($expectedResult));
@@ -54,10 +54,10 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
         $responseData = new ArrayOfTestAddress();
         $responseData->properties = [];
 
-        $addressFinderClient = new AddressFinderClient($this->createConfiguration(), $this->createClient(200, $responseData));
+        $addressFinderClient = new AddressFinderClient($this->createClient(200, $responseData));
 
         //Act
-        $results = $addressFinderClient->findPropertiesByPostCode($this->validPostcode);
+        $results = $addressFinderClient->findPropertiesByPostCode($this->createConfiguration(), $this->validPostcode);
 
         //Assert
         $this->assertSame($results, $expectedResult);
@@ -70,13 +70,13 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
 
         foreach ($expectedStatusCodes as $expectedStatusCode) {
             $responseData = new ArrayOfTestAddress();
-            $addressFinderClient = new AddressFinderClient($this->createConfiguration(), $this->createClient($expectedStatusCode, $responseData));
+            $addressFinderClient = new AddressFinderClient($this->createClient($expectedStatusCode, $responseData));
 
             $caughtException = null;
 
             //Act
             try {
-                $results = $addressFinderClient->findPropertiesByPostCode($this->validPostcode);
+                $results = $addressFinderClient->findPropertiesByPostCode($this->createConfiguration(), $this->validPostcode);
             } catch (AddressFinderHttpResponseException $ex) {
                 $caughtException = $ex;
             }
@@ -93,10 +93,10 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
 
         $responseData = $this->createTestPropertyOne();
 
-        $addressFinderClient = new AddressFinderClient($this->createConfiguration(), $this->createClient(200, $responseData));
+        $addressFinderClient = new AddressFinderClient($this->createClient(200, $responseData));
 
         //Act
-        $result = $addressFinderClient->getPropertyByIdentifier($this->validIdentifier);
+        $result = $addressFinderClient->getPropertyByIdentifier($this->createConfiguration(), $this->validIdentifier);
 
         //Assert
         $this->assertModelsAreSame($result, $expectedResult);
@@ -109,13 +109,13 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
 
         foreach ($expectedStatusCodes as $expectedStatusCode) {
             $responseResult = new ArrayOfTestAddress();
-            $addressFinderClient = new AddressFinderClient($this->createConfiguration(), $this->createClient($expectedStatusCode, $responseResult));
+            $addressFinderClient = new AddressFinderClient($this->createClient($expectedStatusCode, $responseResult));
 
             $caughtException = null;
 
             //Act
             try {
-                $results = $addressFinderClient->getPropertyByIdentifier('Invalid ID');
+                $results = $addressFinderClient->getPropertyByIdentifier($this->createConfiguration(), 'Invalid ID');
             } catch (AddressFinderHttpResponseException $ex) {
                 $caughtException = $ex;
             }
@@ -133,10 +133,10 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
         $responseData = new ArrayOfTestAddress();
         $responseData->properties = [$this->createTestStreetOne(), $this->createTestStreetTwo()];
 
-        $addressFinderClient = new AddressFinderClient($this->createConfiguration(), $this->createClient(200, $responseData));
+        $addressFinderClient = new AddressFinderClient($this->createClient(200, $responseData));
 
         //Act
-        $result = $addressFinderClient->findStreetsByTerm($this->validTerm);
+        $result = $addressFinderClient->findStreetsByTerm($this->createConfiguration(), $this->validTerm);
 
         //Assert
         $this->assertSame(count($result), count($expectedResult));
@@ -153,10 +153,10 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
         $responseData = new ArrayOfTestAddress();
         $responseData->properties = [];
 
-        $addressFinderClient = new AddressFinderClient($this->createConfiguration(), $this->createClient(200, $responseData));
+        $addressFinderClient = new AddressFinderClient($this->createClient(200, $responseData));
 
         //Act
-        $results = $addressFinderClient->findStreetsByTerm($this->validPostcode);
+        $results = $addressFinderClient->findStreetsByTerm($this->createConfiguration(), $this->validPostcode);
 
         //Assert
         $this->assertSame($results, $expectedResult);
@@ -169,13 +169,13 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
 
         foreach ($expectedStatusCodes as $expectedStatusCode) {
             $responseResult = new ArrayOfTestAddress();
-            $addressFinderClient = new AddressFinderClient($this->createConfiguration(), $this->createClient($expectedStatusCode, $responseResult));
+            $addressFinderClient = new AddressFinderClient($this->createClient($expectedStatusCode, $responseResult));
 
             $caughtException = null;
 
             //Act
             try {
-                $results = $addressFinderClient->findStreetsByTerm('Invalid ID');
+                $results = $addressFinderClient->findStreetsByTerm($this->createConfiguration(), 'Invalid ID');
             } catch (AddressFinderHttpResponseException $ex) {
                 $caughtException = $ex;
             }
@@ -192,10 +192,10 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
 
         $responseData = $this->createTestStreetOne();
 
-        $addressFinderClient = new AddressFinderClient($this->createConfiguration(), $this->createClient(200, $responseData));
+        $addressFinderClient = new AddressFinderClient($this->createClient(200, $responseData));
 
         //Act
-        $result = $addressFinderClient->getStreetByIdentifier($this->validIdentifier);
+        $result = $addressFinderClient->getStreetByIdentifier($this->createConfiguration(), $this->validIdentifier);
 
         //Assert
         $this->assertModelsAreSame($result, $expectedResult);
@@ -208,13 +208,13 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
 
         foreach ($expectedStatusCodes as $expectedStatusCode) {
             $responseResult = new ArrayOfTestAddress();
-            $addressFinderClient = new AddressFinderClient($this->createConfiguration(), $this->createClient($expectedStatusCode, $responseResult));
+            $addressFinderClient = new AddressFinderClient($this->createClient($expectedStatusCode, $responseResult));
 
             $caughtException = null;
 
             //Act
             try {
-                $results = $addressFinderClient->findStreetsByTerm('Invalid ID');
+                $results = $addressFinderClient->findStreetsByTerm($this->createConfiguration(), 'Invalid ID');
             } catch (AddressFinderHttpResponseException $ex) {
                 $caughtException = $ex;
             }
@@ -348,13 +348,14 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
     private function createConfiguration()
     {
         $configuration = new AddressFinderClientConfigurationModel();
-        $configuration->baseUri = 'http://localhost:8000';
-        $configuration->apiKey = 'Xc31982x53LP98Fsce';
-        $configuration->statusPath = '/status';
-        $configuration->propertyLookupSearchPath = '/property/search/{postcode}';
-        $configuration->propertyLookupFetchPath = '/property/fetch/{identifier}';
-        $configuration->streetLookupSearchPath = '/street/search/{term}';
-        $configuration->streetLookupFetchPath = '/street/fetch/{identifier}';
+
+        $configuration->setBaseUri('http://localhost:8000');
+        $configuration->setApiKey('Xc31982x53LP98Fsce');
+        $configuration->setStatusPath('/status');
+        $configuration->setPropertyLookupSearchPath('/property/search/{postcode}');
+        $configuration->setPropertyLookupFetchPath('/property/fetch/{identifier}');
+        $configuration->setStreetLookupSearchPath('/street/search/{term}');
+        $configuration->setStreetLookupFetchPath('/street/fetch/{identifier}');
 
         return $configuration;
     }

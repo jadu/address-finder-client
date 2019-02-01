@@ -24,4 +24,9 @@ class AddressFinderHttpResponseException extends Exception
     {
         return $this->statusCode;
     }
+
+    public function setMessage($message)
+    {
+        $this->message = $message;
+    }
 }

@@ -11,6 +11,22 @@ use JsonSerializable;
  */
 class TestAddress implements JsonSerializable
 {
+
+        /**
+     * @var string
+     */
+    const TYPE_STREET = 'street';
+
+    /**
+     * @var string
+     */
+    const TYPE_PROPERTY = 'property';
+
+    /**
+     * @var string
+     */
+    private $identifier;
+
     /**
      * @var string
      */
@@ -39,12 +55,12 @@ class TestAddress implements JsonSerializable
     /**
      * @var string
      */
-    private $postTown;
+    private $post_town;
 
     /**
      * @var string
      */
-    private $postCode;
+    private $post_code;
 
     /**
      * @var int
@@ -69,12 +85,12 @@ class TestAddress implements JsonSerializable
     /**
      * @var string
      */
-    private $externalReference;
-
+    private $logical_status;
+  
     /**
      * @var string
      */
-    private $logicalStatus;
+    private $type;
 
     /**
      * set paon.
@@ -131,9 +147,9 @@ class TestAddress implements JsonSerializable
      *
      * @var string
      */
-    public function setPostTown($postTown)
+    public function setPostTown($post_town)
     {
-        $this->postTown = $postTown;
+        $this->post_town = $post_town;
     }
 
     /**
@@ -141,9 +157,9 @@ class TestAddress implements JsonSerializable
      *
      * @var string
      */
-    public function setPostCode($postCode)
+    public function setPostCode($post_code)
     {
-        $this->postCode = $postCode;
+        $this->post_code = $post_code;
     }
 
     /**
@@ -187,13 +203,13 @@ class TestAddress implements JsonSerializable
     }
 
     /**
-     * set externalReference.
+     * set setIdentifier.
      *
      * @var string
      */
-    public function setExternalReference($externalReference)
+    public function setIdentifier($identifier)
     {
-        $this->externalReference = $externalReference;
+        $this->identifier = $identifier;
     }
 
     /**
@@ -201,9 +217,19 @@ class TestAddress implements JsonSerializable
      *
      * @var string
      */
-    public function setLogicalStatus($logicalStatus)
+    public function setLogicalStatus($logical_Status)
     {
-        $this->logicalStatus = $logicalStatus;
+        $this->logical_status = $logical_Status;
+    }
+    
+    /**
+     * set type.
+     *
+     * @var string
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
     }
 
     /**
@@ -263,7 +289,7 @@ class TestAddress implements JsonSerializable
      */
     public function getPostTown()
     {
-        return $this->postTown;
+        return $this->post_town;
     }
 
     /**
@@ -273,7 +299,7 @@ class TestAddress implements JsonSerializable
      */
     public function getPostCode()
     {
-        return $this->postCode;
+        return $this->post_code;
     }
 
     /**
@@ -316,14 +342,14 @@ class TestAddress implements JsonSerializable
         return $this->usrn;
     }
 
-    /**
-     * Get externalRefrence.
+     /**
+     * Get getIdentifier.
      *
-     * @return string
+     * @var string
      */
-    public function getExternalReference()
+    public function getIdentifier()
     {
-        return $this->externalReference;
+        return $this->identifier;
     }
 
     /**
@@ -333,25 +359,37 @@ class TestAddress implements JsonSerializable
      */
     public function getLogicalStatus()
     {
-        return $this->logicalStatus;
+        return $this->logical_status;
     }
+
+    /**
+     * set type.
+     *
+     * @var string
+     */
+    public function getType()
+    {
+       return $this->type;
+    }
+
 
     public function jsonSerialize()
     {
         return [
+            'identifier' => $this->getIdentifier(),
             'paon' => $this->getPaon(),
             'saon' => $this->getSaon(),
             'street' => $this->getStreet(),
             'locality' => $this->getLocality(),
             'town' => $this->getTown(),
-            'postTown' => $this->getPostTown(),
-            'postCode' => $this->getPostCode(),
+            'post_town' => $this->getPostTown(),
+            'post_code' => $this->getPostCode(),
             'easting' => $this->getEasting(),
             'northing' => $this->getNorthing(),
             'uprn' => $this->getUprn(),
             'usrn' => $this->getUsrn(),
-            'externalReference' => $this->getExternalReference(),
-            'logicalstatus' => $this->getLogicalStatus(),
+            'logical_status' => $this->getLogicalStatus(),
+            'type' => $this->getType()
         ];
     }
 }

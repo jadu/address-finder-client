@@ -91,7 +91,7 @@ class ModelMapper
     private function map($address, $property, $value) {
         try {
             switch ($property) {
-                case 'externalReference': 
+                case 'identifier': 
                     $address->setExternalReference($value);
                     break;
                 case 'uprn':   
@@ -112,7 +112,10 @@ class ModelMapper
                 case 'town':  
                     $address->setTown($value); 
                     break;
-                case 'postCode':     
+                case 'post_town':  
+                    $address->setPostTown($value); 
+                    break;
+                case 'post_code':     
                     $address->setPostCode($value); 
                     break;
                 case 'easting':  
@@ -121,8 +124,11 @@ class ModelMapper
                 case 'northing':   
                     $address->setNorthing($value); 
                     break;
-                case 'logicalStatus':   
+                case 'logical_status':   
                     $address->setLogicalStatus($value); 
+                    break;
+                case 'type': 
+                    $address->setType($value);
                     break;
             }
         } catch (\Exception $e) {

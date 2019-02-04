@@ -9,6 +9,7 @@ use GuzzleHttp\Psr7\Response;
 use Jadu\AddressFinderClient\AddressFinderClient;
 use Jadu\AddressFinderClient\Exception\AddressFinderHttpResponseException;
 use Jadu\AddressFinderClient\Model\Address\Model\Address as AddressModel;
+use Jadu\AddressFinderClient\Model\Address\Contract\AddressInterface;
 use Jadu\AddressFinderClient\Model\AddressFinderClientConfigurationModel;
 use Jadu\AddressFinderClient\Model\Test\ArrayOfTestAddress;
 use Jadu\AddressFinderClient\Model\Test\TestAddress as TestAddressModel;
@@ -138,7 +139,6 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
         //Assert
         $this->assertSame(count($result), count($expectedResult));
         for ($index = 0; $index < count($result); ++$index) {
-            echo $result[$index]->getUsrn() .':'. $expectedResult[$index]->getUsrn() . '     ';
             $this->assertModelsAreSame($result[$index], $expectedResult[$index]);
            
         }
@@ -224,7 +224,8 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
     private function createTestPropertyOne()
     {
         $testAddress = new TestAddressModel();
-        $testAddress->setExternalReference('10001228376');
+
+        $testAddress->setIdentifier('10001228376');
         $testAddress->setUprn('10001228376');
         $testAddress->setUsrn('2802454');
         $testAddress->setPaon('1 UNIVERSE HOUSE');
@@ -235,6 +236,8 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
         $testAddress->setEasting('454801');
         $testAddress->setNorthing('302081');
         $testAddress->setLogicalStatus('1');
+        $testAddress->setType($testAddress::TYPE_PROPERTY);
+
         return $testAddress;
     }
 
@@ -242,7 +245,7 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
     {
         $testAddress = new TestAddressModel();
       
-        $testAddress->setExternalReference('45671258378');
+        $testAddress->setIdentifier('45671258378');
         $testAddress->setUprn('45671258378');
         $testAddress->setUsrn('2935454');
         $testAddress->setPaon('2 UNIVERSE HOUSE');
@@ -253,6 +256,7 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
         $testAddress->setEasting('454801');
         $testAddress->setNorthing('302081');
         $testAddress->setLogicalStatus('2');
+        $testAddress->setType($testAddress::TYPE_PROPERTY);
 
         return $testAddress;
     }
@@ -261,11 +265,12 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
     {
         $testAddress = new TestAddressModel();
       
-        $testAddress->setExternalReference('10001228376');
+        $testAddress->setIdentifier('10001228376');
         $testAddress->setUsrn('2802454');
         $testAddress->setStreet('MERUS COURT');
         $testAddress->setTown('BRAUNSTONE TOWN');
         $testAddress->setLocality('MERIDIAN BUSINESS PARK');
+        $testAddress->setType($testAddress::TYPE_STREET);
 
         return $testAddress;
     }
@@ -274,11 +279,12 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
     {
         $testAddress = new TestAddressModel();
       
-        $testAddress->setExternalReference('45671258378');
+        $testAddress->setIdentifier('45671258378');
         $testAddress->setUsrn('3937452');
         $testAddress->setStreet('MERUS COURT');
         $testAddress->setTown('BRAUNSTONE TOWN');
         $testAddress->setLocality('MERIDIAN BUSINESS PARK');
+        $testAddress->setType($testAddress::TYPE_STREET);
 
         return $testAddress;
     }
@@ -297,6 +303,8 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
         $address->setPostCode('LE19 1RJ');
         $address->setEasting('454801');
         $address->setNorthing('302081');
+        $address->setLogicalStatus('1');
+        $address->setType($address::TYPE_PROPERTY);
 
         return $address;
     }
@@ -315,6 +323,8 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
         $address->setPostCode('LE19 1RJ');
         $address->setEasting('454801');
         $address->setNorthing('302081');
+        $address->setLogicalStatus('2');
+        $address->setType($address::TYPE_PROPERTY);
 
         return $address;
     }
@@ -328,6 +338,7 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
         $address->setStreet('MERUS COURT');
         $address->setTown('BRAUNSTONE TOWN');
         $address->setLocality('MERIDIAN BUSINESS PARK');
+        $address->setType($address::TYPE_STREET);
 
         return $address;
     }
@@ -341,6 +352,7 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
         $address->setStreet('MERUS COURT');
         $address->setTown('BRAUNSTONE TOWN');
         $address->setLocality('MERIDIAN BUSINESS PARK');
+        $address->setType($address::TYPE_STREET);
 
         return $address;
     }
@@ -383,5 +395,6 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
         $this->assertSame($result->getNorthing(), $expectedResult->getNorthing());
         $this->assertSame($result->getExternalReference(), $expectedResult->getExternalReference());
         $this->assertSame($result->getLogicalStatus(), $expectedResult->getLogicalStatus());
+        $this->assertSame($result->getType(), $expectedResult->getType());
     }
 }

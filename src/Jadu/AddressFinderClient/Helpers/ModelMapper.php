@@ -33,13 +33,13 @@ class ModelMapper
 
             foreach ($body as $property) {
     
-                $propertiesModel = new Address();
+                $address = new Address();
 
                 foreach ($property as $key => $val) {
-                    $this->map($propertiesModel, $key, $val);
+                    $this->map($address, $key, $val);
                 }
 
-                array_push($results, $propertiesModel);
+                array_push($results, $address);
             }
 
             return $results;
@@ -70,13 +70,13 @@ class ModelMapper
                 throw $exception;
             }
 
-            $propertiesModel = new Address();
+            $address = new Address();
 
             foreach ($body as $key => $val) {
-                $this->map($propertiesModel, $key, $val);
+                $this->map($address, $key, $val);
             }
 
-            return $propertiesModel;
+            return $address;
         } catch (AddressFinderParsingException $e) {
             throw $e;
         } catch (AddressFinderMappingException $e) {
@@ -88,34 +88,43 @@ class ModelMapper
         }
     }
 
-    // private function map($class, $property, $value)
-    // {
-    //     try {
-    //         $method = ‘set’ . ucfirst($property); //camelCase() method name
-
-    //         if (method_exists($class, $method)) {
-    //             $reflection = new \ReflectionMethod($class, $method);
-    //             if (!$reflection->isPublic()) {
-    //                 throw new RuntimeException();
-    //             }
-    //         }
-
-    //         if (property_exists($class, $property)) {
-    //             $reflectedProperty = new \ReflectionProperty($class, $property);
-    //             $reflectedProperty->setAccessible(true);
-
-    //             return $reflectedProperty->setValue($class, $value);
-    //         }
-    //     } catch (\Exception $e) {
-    //         $exception = new AddressFinderMappingException();
-    //         $exception->setMessage($e->getMessage());
-    //         throw $exception;
-    //     }
-    // }
-
-    private function map() {
+    private function map($address, $property, $value) {
         try {
-
+            switch ($property) {
+                case 'externalReference': 
+                    $address->setExternalReference($value);
+                    break;
+                case 'uprn':   
+                    $address->setUprn($value);
+                    break;
+                case 'usrn':
+                    $address->setUsrn($value);
+                     break;
+                case 'paon': 
+                    $address->setPaon($value);
+                    break;
+                case 'street':  
+                    $address->setStreet($value);
+                    break;
+                case 'locality':   
+                    $address->setLocality($value); 
+                    break;
+                case 'town':  
+                    $address->setTown($value); 
+                    break;
+                case 'postCode':     
+                    $address->setPostCode($value); 
+                    break;
+                case 'easting':  
+                    $address->setEasting($value); 
+                    break;
+                case 'northing':   
+                    $address->setNorthing($value); 
+                    break;
+                case 'logicalStatus':   
+                    $address->setLogicalStatus($value); 
+                    break;
+            }
         } catch (\Exception $e) {
                     $exception = new AddressFinderMappingException();
                     $exception->setMessage($e->getMessage());

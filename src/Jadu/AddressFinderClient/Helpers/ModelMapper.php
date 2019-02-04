@@ -4,7 +4,7 @@ namespace Jadu\AddressFinderClient\Helpers;
 
 use Jadu\AddressFinderClient\Exception\AddressFinderMappingException;
 use Jadu\AddressFinderClient\Exception\AddressFinderParsingException;
-use Jadu\AddressFinderClient\Model\Address\Model\Address as PropertyModel;
+use Jadu\AddressFinderClient\Model\Address\Model\Address;
 
 /**
  * AddressFinderClient.
@@ -31,16 +31,15 @@ class ModelMapper
 
             $results = [];
 
-            foreach ($body as $properties) {
-                foreach ($properties as $property) {
-                    $propertiesModel = new PropertyModel();
+            foreach ($body as $property) {
+    
+                $propertiesModel = new Address();
 
-                    foreach ($property as $key => $val) {
-                        $this->map($propertiesModel, $key, $val);
-                    }
-
-                    array_push($results, $propertiesModel);
+                foreach ($property as $key => $val) {
+                    $this->map($propertiesModel, $key, $val);
                 }
+
+                array_push($results, $propertiesModel);
             }
 
             return $results;
@@ -71,7 +70,7 @@ class ModelMapper
                 throw $exception;
             }
 
-            $propertiesModel = new PropertyModel();
+            $propertiesModel = new Address();
 
             foreach ($body as $key => $val) {
                 $this->map($propertiesModel, $key, $val);
@@ -89,28 +88,39 @@ class ModelMapper
         }
     }
 
-    private function map($class, $property, $value)
-    {
+    // private function map($class, $property, $value)
+    // {
+    //     try {
+    //         $method = ‘set’ . ucfirst($property); //camelCase() method name
+
+    //         if (method_exists($class, $method)) {
+    //             $reflection = new \ReflectionMethod($class, $method);
+    //             if (!$reflection->isPublic()) {
+    //                 throw new RuntimeException();
+    //             }
+    //         }
+
+    //         if (property_exists($class, $property)) {
+    //             $reflectedProperty = new \ReflectionProperty($class, $property);
+    //             $reflectedProperty->setAccessible(true);
+
+    //             return $reflectedProperty->setValue($class, $value);
+    //         }
+    //     } catch (\Exception $e) {
+    //         $exception = new AddressFinderMappingException();
+    //         $exception->setMessage($e->getMessage());
+    //         throw $exception;
+    //     }
+    // }
+
+    private function map() {
         try {
-            $method = ‘set’ . ucfirst($property); //camelCase() method name
 
-            if (method_exists($class, $method)) {
-                $reflection = new \ReflectionMethod($class, $method);
-                if (!$reflection->isPublic()) {
-                    throw new RuntimeException();
-                }
-            }
-
-            if (property_exists($class, $property)) {
-                $reflectedProperty = new \ReflectionProperty($class, $property);
-                $reflectedProperty->setAccessible(true);
-
-                return $reflectedProperty->setValue($class, $value);
-            }
         } catch (\Exception $e) {
-            $exception = new AddressFinderMappingException();
-            $exception->setMessage($e->getMessage());
-            throw $exception;
+                    $exception = new AddressFinderMappingException();
+                    $exception->setMessage($e->getMessage());
+                    throw $exception;
         }
+        
     }
 }

@@ -2,100 +2,356 @@
 
 namespace Jadu\AddressFinderClient\Model\Test;
 
+use JsonSerializable;
+
 /**
- * Property.
+ * Class Address.
  *
  * @author Jadu Ltd.
  */
-class TestAddress
+class TestAddress implements JsonSerializable
 {
     /**
      * @var string
      */
-    public $paon;
+    private $paon;
 
     /**
      * @var string
      */
-    public $saon;
+    private $saon;
 
     /**
      * @var string
      */
-    public $street;
+    private $street;
 
     /**
      * @var string
      */
-    public $locality;
+    private $locality;
 
     /**
      * @var string
      */
-    public $town;
+    private $town;
 
     /**
      * @var string
      */
-    public $postTown;
+    private $postTown;
 
     /**
      * @var string
      */
-    public $postCode;
-
-    /**
-     * @var string
-     */
-    public $type;
-
-    /**
-     * @var string
-     */
-    public $administrativeArea;
+    private $postCode;
 
     /**
      * @var int
      */
-    public $easting;
+    private $easting;
 
     /**
      * @var int
      */
-    public $northing;
+    private $northing;
 
     /**
      * @var string
      */
-    public $uprn;
+    private $uprn;
 
     /**
      * @var string
      */
-    public $usrn;
+    private $usrn;
 
     /**
      * @var string
      */
-    public $externalReference;
+    private $externalReference;
 
     /**
      * @var string
      */
-    public $reference;
+    private $logicalStatus;
 
     /**
-     * @var DateTime
+     * set paon.
+     *
+     * @var string
      */
-    public $createdAt;
+    public function setPaon($paon)
+    {
+        $this->paon = $paon;
+    }
 
     /**
-     * @var DateTime
+     * set saon.
+     *
+     * @var string
      */
-    public $updatedAt;
+    public function setSaon($saon)
+    {
+        $this->saon = $saon;
+    }
 
     /**
-     * @var int
+     * set street.
+     *
+     * @var string
      */
-    public $version;
+    public function setStreet($street)
+    {
+        $this->street = $street;
+    }
+
+    /**
+     * set locality.
+     *
+     * @var string
+     */
+    public function setLocality($locality)
+    {
+        $this->locality = $locality;
+    }
+
+    /**
+     * set town.
+     *
+     * @var string
+     */
+    public function setTown($town)
+    {
+        $this->town = $town;
+    }
+
+    /**
+     * set postTown.
+     *
+     * @var string
+     */
+    public function setPostTown($postTown)
+    {
+        $this->postTown = $postTown;
+    }
+
+    /**
+     * set postCode.
+     *
+     * @var string
+     */
+    public function setPostCode($postCode)
+    {
+        $this->postCode = $postCode;
+    }
+
+    /**
+     * set easting.
+     *
+     * @var string
+     */
+    public function setEasting($easting)
+    {
+        $this->easting = $easting;
+    }
+
+    /**
+     * set northing.
+     *
+     * @var string
+     */
+    public function setNorthing($northing)
+    {
+        $this->northing = $northing;
+    }
+
+    /**
+     * set uprn.
+     *
+     * @var string
+     */
+    public function setUprn($uprn)
+    {
+        $this->uprn = $uprn;
+    }
+
+    /**
+     * set usrn.
+     *
+     * @var string
+     */
+    public function setUsrn($usrn)
+    {
+        $this->usrn = $usrn;
+    }
+
+    /**
+     * set externalReference.
+     *
+     * @var string
+     */
+    public function setExternalReference($externalReference)
+    {
+        $this->externalReference = $externalReference;
+    }
+
+    /**
+     * set logicalStatus.
+     *
+     * @var string
+     */
+    public function setLogicalStatus($logicalStatus)
+    {
+        $this->logicalStatus = $logicalStatus;
+    }
+
+    /**
+     * Get Paon.
+     *
+     * @return string
+     */
+    public function getPaon()
+    {
+        return $this->paon;
+    }
+
+    /**
+     * Get Saon.
+     *
+     * @return string
+     */
+    public function getSaon()
+    {
+        return $this->saon;
+    }
+
+    /**
+     * Get Street.
+     *
+     * @return string
+     */
+    public function getStreet()
+    {
+        return $this->street;
+    }
+
+    /**
+     * Get Locality.
+     *
+     * @return string
+     */
+    public function getLocality()
+    {
+        return $this->locality;
+    }
+
+    /**
+     * Get Town.
+     *
+     * @return string
+     */
+    public function getTown()
+    {
+        return $this->town;
+    }
+
+    /**
+     * Get PostTown.
+     *
+     * @return string
+     */
+    public function getPostTown()
+    {
+        return $this->postTown;
+    }
+
+    /**
+     * Get PostCode.
+     *
+     * @return string
+     */
+    public function getPostCode()
+    {
+        return $this->postCode;
+    }
+
+    /**
+     * Get easting.
+     *
+     * @return int
+     */
+    public function getEasting()
+    {
+        return $this->easting;
+    }
+
+    /**
+     * Get northing.
+     *
+     * @return int
+     */
+    public function getNorthing()
+    {
+        return $this->northing;
+    }
+
+    /**
+     * Get UPRN.
+     *
+     * @return string
+     */
+    public function getUprn()
+    {
+        return $this->uprn;
+    }
+
+    /**
+     * Get USRN.
+     *
+     * @return string
+     */
+    public function getUsrn()
+    {
+        return $this->usrn;
+    }
+
+    /**
+     * Get externalRefrence.
+     *
+     * @return string
+     */
+    public function getExternalReference()
+    {
+        return $this->externalReference;
+    }
+
+    /**
+     * Get logicalStatus.
+     *
+     * @return string
+     */
+    public function getLogicalStatus()
+    {
+        return $this->logicalStatus;
+    }
+
+    public function jsonSerialize()
+    {
+        return [
+            'paon' => $this->getPaon(),
+            'saon' => $this->getSaon(),
+            'street' => $this->getStreet(),
+            'locality' => $this->getLocality(),
+            'town' => $this->getTown(),
+            'postTown' => $this->getPostTown(),
+            'postCode' => $this->getPostCode(),
+            'easting' => $this->getEasting(),
+            'northing' => $this->getNorthing(),
+            'uprn' => $this->getUprn(),
+            'usrn' => $this->getUsrn(),
+            'externalReference' => $this->getExternalReference(),
+            'logicalstatus' => $this->getLogicalStatus(),
+        ];
+    }
 }

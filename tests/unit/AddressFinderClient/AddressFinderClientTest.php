@@ -30,8 +30,7 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
         //Arrange
         $expectedResult = [$this->createExpectedPropertyResponseOne(), $this->createExpectedPropertyResponseTwo()];
 
-        $responseData = new ArrayOfTestAddress();
-        $responseData->properties = [$this->createTestPropertyOne(), $this->createTestPropertyTwo()];
+        $responseData = [$this->createTestPropertyOne(), $this->createTestPropertyTwo()];
 
         $addressFinderClient = new AddressFinderClient($this->createClient(200, $responseData));
 
@@ -51,8 +50,7 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
         //Arrange
         $expectedResult = [];
 
-        $responseData = new ArrayOfTestAddress();
-        $responseData->properties = [];
+        $responseData = [];
 
         $addressFinderClient = new AddressFinderClient($this->createClient(200, $responseData));
 
@@ -69,7 +67,7 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
         $expectedStatusCodes = [202, 300, 400, 401, 404, 500];
 
         foreach ($expectedStatusCodes as $expectedStatusCode) {
-            $responseData = new ArrayOfTestAddress();
+            $responseData = [];
             $addressFinderClient = new AddressFinderClient($this->createClient($expectedStatusCode, $responseData));
 
             $caughtException = null;
@@ -108,7 +106,7 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
         $expectedStatusCodes = [202, 300, 400, 401, 404, 500];
 
         foreach ($expectedStatusCodes as $expectedStatusCode) {
-            $responseResult = new ArrayOfTestAddress();
+            $responseResult = [];
             $addressFinderClient = new AddressFinderClient($this->createClient($expectedStatusCode, $responseResult));
 
             $caughtException = null;
@@ -130,8 +128,7 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
         //Arrange
         $expectedResult = [$this->createExpectedStreetResponseOne(), $this->createExpectedStreetResponseTwo()];
 
-        $responseData = new ArrayOfTestAddress();
-        $responseData->properties = [$this->createTestStreetOne(), $this->createTestStreetTwo()];
+        $responseData = [$this->createTestStreetOne(), $this->createTestStreetTwo()];
 
         $addressFinderClient = new AddressFinderClient($this->createClient(200, $responseData));
 
@@ -141,7 +138,9 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
         //Assert
         $this->assertSame(count($result), count($expectedResult));
         for ($index = 0; $index < count($result); ++$index) {
+            echo $result[$index]->getUsrn() .':'. $expectedResult[$index]->getUsrn() . '     ';
             $this->assertModelsAreSame($result[$index], $expectedResult[$index]);
+           
         }
     }
 
@@ -149,9 +148,7 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
     {
         //Arrange
         $expectedResult = [];
-
-        $responseData = new ArrayOfTestAddress();
-        $responseData->properties = [];
+        $responseData = [];
 
         $addressFinderClient = new AddressFinderClient($this->createClient(200, $responseData));
 
@@ -168,7 +165,7 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
         $expectedStatusCodes = [202, 300, 400, 401, 404, 500];
 
         foreach ($expectedStatusCodes as $expectedStatusCode) {
-            $responseResult = new ArrayOfTestAddress();
+            $responseResult = [];
             $addressFinderClient = new AddressFinderClient($this->createClient($expectedStatusCode, $responseResult));
 
             $caughtException = null;
@@ -207,7 +204,7 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
         $expectedStatusCodes = [202, 300, 400, 401, 404, 500];
 
         foreach ($expectedStatusCodes as $expectedStatusCode) {
-            $responseResult = new ArrayOfTestAddress();
+            $responseResult = [];
             $addressFinderClient = new AddressFinderClient($this->createClient($expectedStatusCode, $responseResult));
 
             $caughtException = null;
@@ -227,31 +224,35 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
     private function createTestPropertyOne()
     {
         $testAddress = new TestAddressModel();
-        $testAddress->uprn = '10001228376';
-        $testAddress->usrn = '2802454';
-        $testAddress->paon = '1 UNIVERSE HOUSE';
-        $testAddress->street = 'MERUS COURT';
-        $testAddress->locality = 'MERIDIAN BUSINESS PARK';
-        $testAddress->town = 'BRAUNSTONE TOWN';
-        $testAddress->postCode = 'LE19 1RJ';
-        $testAddress->easting = '454801';
-        $testAddress->northing = '302081';
-
+        $testAddress->setExternalReference('10001228376');
+        $testAddress->setUprn('10001228376');
+        $testAddress->setUsrn('2802454');
+        $testAddress->setPaon('1 UNIVERSE HOUSE');
+        $testAddress->setStreet('MERUS COURT');
+        $testAddress->setLocality('MERIDIAN BUSINESS PARK');
+        $testAddress->setTown('BRAUNSTONE TOWN');
+        $testAddress->setPostCode('LE19 1RJ');
+        $testAddress->setEasting('454801');
+        $testAddress->setNorthing('302081');
+        $testAddress->setLogicalStatus('1');
         return $testAddress;
     }
 
     private function createTestPropertyTwo()
     {
         $testAddress = new TestAddressModel();
-        $testAddress->uprn = '45671258378';
-        $testAddress->usrn = '2935454';
-        $testAddress->paon = '2 UNIVERSE HOUSE';
-        $testAddress->street = 'MERUS COURT';
-        $testAddress->locality = 'MERIDIAN BUSINESS PARK';
-        $testAddress->town = 'BRAUNSTONE TOWN';
-        $testAddress->postCode = 'LE19 1RJ';
-        $testAddress->easting = '454801';
-        $testAddress->northing = '302081';
+      
+        $testAddress->setExternalReference('45671258378');
+        $testAddress->setUprn('45671258378');
+        $testAddress->setUsrn('2935454');
+        $testAddress->setPaon('2 UNIVERSE HOUSE');
+        $testAddress->setStreet('MERUS COURT');
+        $testAddress->setLocality('MERIDIAN BUSINESS PARK');
+        $testAddress->setTown('BRAUNSTONE TOWN');
+        $testAddress->setPostCode('LE19 1RJ');
+        $testAddress->setEasting('454801');
+        $testAddress->setNorthing('302081');
+        $testAddress->setLogicalStatus('2');
 
         return $testAddress;
     }
@@ -259,10 +260,12 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
     private function createTestStreetOne()
     {
         $testAddress = new TestAddressModel();
-        $testAddress->usrn = '2802454';
-        $testAddress->street = 'MERUS COURT';
-        $testAddress->locality = 'MERIDIAN BUSINESS PARK';
-        $testAddress->town = 'BRAUNSTONE TOWN';
+      
+        $testAddress->setExternalReference('10001228376');
+        $testAddress->setUsrn('2802454');
+        $testAddress->setStreet('MERUS COURT');
+        $testAddress->setTown('BRAUNSTONE TOWN');
+        $testAddress->setLocality('MERIDIAN BUSINESS PARK');
 
         return $testAddress;
     }
@@ -270,10 +273,12 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
     private function createTestStreetTwo()
     {
         $testAddress = new TestAddressModel();
-        $testAddress->usrn = '4536431';
-        $testAddress->street = 'MERUS COURT';
-        $testAddress->locality = 'MERIDIAN BUSINESS PARK';
-        $testAddress->town = 'BRAUNSTONE TOWN';
+      
+        $testAddress->setExternalReference('45671258378');
+        $testAddress->setUsrn('3937452');
+        $testAddress->setStreet('MERUS COURT');
+        $testAddress->setTown('BRAUNSTONE TOWN');
+        $testAddress->setLocality('MERIDIAN BUSINESS PARK');
 
         return $testAddress;
     }
@@ -281,6 +286,8 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
     private function createExpectedPropertyResponseOne()
     {
         $address = new AddressModel();
+        
+        $address->setExternalReference('10001228376');
         $address->setUprn('10001228376');
         $address->setUsrn('2802454');
         $address->setPaon('1 UNIVERSE HOUSE');
@@ -298,6 +305,7 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
     {
         $address = new AddressModel();
 
+        $address->setExternalReference('45671258378');
         $address->setUprn('45671258378');
         $address->setUsrn('2935454');
         $address->setPaon('2 UNIVERSE HOUSE');
@@ -315,10 +323,11 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
     {
         $address = new AddressModel();
 
+        $address->setExternalReference('10001228376');
         $address->setUsrn('2802454');
         $address->setStreet('MERUS COURT');
-        $address->setLocality('MERIDIAN BUSINESS PARK');
         $address->setTown('BRAUNSTONE TOWN');
+        $address->setLocality('MERIDIAN BUSINESS PARK');
 
         return $address;
     }
@@ -327,10 +336,11 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
     {
         $address = new AddressModel();
 
-        $address->setUsrn('4536431');
+        $address->setExternalReference('45671258378');
+        $address->setUsrn('3937452');
         $address->setStreet('MERUS COURT');
-        $address->setLocality('MERIDIAN BUSINESS PARK');
         $address->setTown('BRAUNSTONE TOWN');
+        $address->setLocality('MERIDIAN BUSINESS PARK');
 
         return $address;
     }
@@ -371,5 +381,7 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
         $this->assertSame($result->getPostCode(), $expectedResult->getPostCode());
         $this->assertSame($result->getEasting(), $expectedResult->getEasting());
         $this->assertSame($result->getNorthing(), $expectedResult->getNorthing());
+        $this->assertSame($result->getExternalReference(), $expectedResult->getExternalReference());
+        $this->assertSame($result->getLogicalStatus(), $expectedResult->getLogicalStatus());
     }
 }

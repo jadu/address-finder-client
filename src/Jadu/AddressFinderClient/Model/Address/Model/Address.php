@@ -99,6 +99,11 @@ class Address implements AddressInterface
     protected $updatedAt;
 
     /**
+     * @var string
+     */
+    protected $logicalStatus;
+
+    /**
      * @var int
      */
     protected $version;
@@ -418,5 +423,25 @@ class Address implements AddressInterface
     public function setVersion($version)
     {
         $this->version = $version;
+    }
+
+     /**
+     * Get logicalStatus.
+     *
+     * @return string
+     */
+    public function getLogicalStatus()
+    {
+        return $this->logicalStatus;
+    }
+
+     /**
+     * set logicalStatus.
+     *
+     * @var string
+     */
+    public function setLogicalStatus($logicalStatus)
+    {
+        $this->logicalStatus = $logicalStatus;
     }
 }

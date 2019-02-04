@@ -24,7 +24,6 @@ class AddressFinderClient
     private $mapper;
 
     /**
-     * 
      * @param HttpAdapter $client
      */
     public function __construct(Client $client)
@@ -94,10 +93,10 @@ class AddressFinderClient
 
                 return $result;
             } else {
-                 // Throw Exception for any errors less than a 400 status code.
-                 $exception = new AddressFinderHttpResponseException($statusCode);
-                 $exception->setMessage("The server didn't respond with a 200 status code or a status code over 400.");
-                 throw $exception;
+                // Throw Exception for any errors less than a 400 status code.
+                $exception = new AddressFinderHttpResponseException($statusCode);
+                $exception->setMessage("The server didn't respond with a 200 status code or a status code over 400.");
+                throw $exception;
             }
         } catch (RequestException $e) {
             // Throw Exception for any errors grater than than a 400 status code.
@@ -135,10 +134,10 @@ class AddressFinderClient
 
                 return $results;
             } else {
-               // Throw Exception for any errors less than a 400 status code.
-               $exception = new AddressFinderHttpResponseException($statusCode);
-               $exception->setMessage("The server didn't respond with a 200 status code or a status code over 400.");
-               throw $exception;
+                // Throw Exception for any errors less than a 400 status code.
+                $exception = new AddressFinderHttpResponseException($statusCode);
+                $exception->setMessage("The server didn't respond with a 200 status code or a status code over 400.");
+                throw $exception;
             }
         } catch (RequestException $e) {
             // Throw Exception for any errors grater than than a 400 status code.

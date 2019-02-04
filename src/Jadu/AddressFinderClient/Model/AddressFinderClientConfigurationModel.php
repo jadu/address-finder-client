@@ -39,7 +39,6 @@ class AddressFinderClientConfigurationModel
      */
     private $streetLookupFetchPath;
 
-
     public function setApiKey($apiKey)
     {
         $this->apiKey = $apiKey;

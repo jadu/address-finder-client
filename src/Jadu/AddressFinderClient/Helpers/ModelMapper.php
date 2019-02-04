@@ -32,7 +32,6 @@ class ModelMapper
             $results = [];
 
             foreach ($body as $property) {
-    
                 $address = new Address();
 
                 foreach ($property as $key => $val) {
@@ -88,54 +87,54 @@ class ModelMapper
         }
     }
 
-    private function map($address, $property, $value) {
+    private function map($address, $property, $value)
+    {
         try {
             switch ($property) {
-                case 'identifier': 
+                case 'identifier':
                     $address->setExternalReference($value);
                     break;
-                case 'uprn':   
+                case 'uprn':
                     $address->setUprn($value);
                     break;
                 case 'usrn':
                     $address->setUsrn($value);
                      break;
-                case 'paon': 
+                case 'paon':
                     $address->setPaon($value);
                     break;
-                case 'street':  
+                case 'street':
                     $address->setStreet($value);
                     break;
-                case 'locality':   
-                    $address->setLocality($value); 
+                case 'locality':
+                    $address->setLocality($value);
                     break;
-                case 'town':  
-                    $address->setTown($value); 
+                case 'town':
+                    $address->setTown($value);
                     break;
-                case 'post_town':  
-                    $address->setPostTown($value); 
+                case 'post_town':
+                    $address->setPostTown($value);
                     break;
-                case 'post_code':     
-                    $address->setPostCode($value); 
+                case 'post_code':
+                    $address->setPostCode($value);
                     break;
-                case 'easting':  
-                    $address->setEasting($value); 
+                case 'easting':
+                    $address->setEasting($value);
                     break;
-                case 'northing':   
-                    $address->setNorthing($value); 
+                case 'northing':
+                    $address->setNorthing($value);
                     break;
-                case 'logical_status':   
-                    $address->setLogicalStatus($value); 
+                case 'logical_status':
+                    $address->setLogicalStatus($value);
                     break;
-                case 'type': 
+                case 'type':
                     $address->setType($value);
                     break;
             }
         } catch (\Exception $e) {
-                    $exception = new AddressFinderMappingException();
-                    $exception->setMessage($e->getMessage());
-                    throw $exception;
+            $exception = new AddressFinderMappingException();
+            $exception->setMessage($e->getMessage());
+            throw $exception;
         }
-        
     }
 }

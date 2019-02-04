@@ -425,7 +425,7 @@ class Address implements AddressInterface
         $this->version = $version;
     }
 
-     /**
+    /**
      * Get logicalStatus.
      *
      * @return string
@@ -435,7 +435,7 @@ class Address implements AddressInterface
         return $this->logicalStatus;
     }
 
-     /**
+    /**
      * set logicalStatus.
      *
      * @var string

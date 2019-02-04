@@ -11,8 +11,7 @@ use JsonSerializable;
  */
 class TestAddress implements JsonSerializable
 {
-
-        /**
+    /**
      * @var string
      */
     const TYPE_STREET = 'street';
@@ -86,7 +85,7 @@ class TestAddress implements JsonSerializable
      * @var string
      */
     private $logical_status;
-  
+
     /**
      * @var string
      */
@@ -221,7 +220,7 @@ class TestAddress implements JsonSerializable
     {
         $this->logical_status = $logical_Status;
     }
-    
+
     /**
      * set type.
      *
@@ -342,7 +341,7 @@ class TestAddress implements JsonSerializable
         return $this->usrn;
     }
 
-     /**
+    /**
      * Get getIdentifier.
      *
      * @var string
@@ -369,9 +368,8 @@ class TestAddress implements JsonSerializable
      */
     public function getType()
     {
-       return $this->type;
+        return $this->type;
     }
-
 
     public function jsonSerialize()
     {
@@ -389,7 +387,7 @@ class TestAddress implements JsonSerializable
             'uprn' => $this->getUprn(),
             'usrn' => $this->getUsrn(),
             'logical_status' => $this->getLogicalStatus(),
-            'type' => $this->getType()
+            'type' => $this->getType(),
         ];
     }
 }

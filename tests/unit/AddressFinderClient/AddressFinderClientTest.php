@@ -9,9 +9,7 @@ use GuzzleHttp\Psr7\Response;
 use Jadu\AddressFinderClient\AddressFinderClient;
 use Jadu\AddressFinderClient\Exception\AddressFinderHttpResponseException;
 use Jadu\AddressFinderClient\Model\Address\Model\Address as AddressModel;
-use Jadu\AddressFinderClient\Model\Address\Contract\AddressInterface;
 use Jadu\AddressFinderClient\Model\AddressFinderClientConfigurationModel;
-use Jadu\AddressFinderClient\Model\Test\ArrayOfTestAddress;
 use Jadu\AddressFinderClient\Model\Test\TestAddress as TestAddressModel;
 use PHPUnit_Framework_TestCase;
 
@@ -140,7 +138,6 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
         $this->assertSame(count($result), count($expectedResult));
         for ($index = 0; $index < count($result); ++$index) {
             $this->assertModelsAreSame($result[$index], $expectedResult[$index]);
-           
         }
     }
 
@@ -244,7 +241,7 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
     private function createTestPropertyTwo()
     {
         $testAddress = new TestAddressModel();
-      
+
         $testAddress->setIdentifier('45671258378');
         $testAddress->setUprn('45671258378');
         $testAddress->setUsrn('2935454');
@@ -264,7 +261,7 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
     private function createTestStreetOne()
     {
         $testAddress = new TestAddressModel();
-      
+
         $testAddress->setIdentifier('10001228376');
         $testAddress->setUsrn('2802454');
         $testAddress->setStreet('MERUS COURT');
@@ -278,7 +275,7 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
     private function createTestStreetTwo()
     {
         $testAddress = new TestAddressModel();
-      
+
         $testAddress->setIdentifier('45671258378');
         $testAddress->setUsrn('3937452');
         $testAddress->setStreet('MERUS COURT');
@@ -292,7 +289,7 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
     private function createExpectedPropertyResponseOne()
     {
         $address = new AddressModel();
-        
+
         $address->setExternalReference('10001228376');
         $address->setUprn('10001228376');
         $address->setUsrn('2802454');

@@ -7,6 +7,7 @@ use GuzzleHttp\Exception\RequestException;
 use Jadu\AddressFinderClient\Exception\AddressFinderException;
 use Jadu\AddressFinderClient\Exception\AddressFinderHttpResponseException;
 use Jadu\AddressFinderClient\Helpers\ModelMapper as Mapper;
+use Jadu\AddressFinderClient\Model\Address\Contract\AddressInterface;
 use Jadu\AddressFinderClient\Model\AddressFinderClientConfigurationModel;
 
 /**
@@ -38,7 +39,7 @@ class AddressFinderClient
      *
      * @return Address[]
      */
-    public function findPropertiesByPostCode($configuration, $postcode)
+    public function searchPropertiesByPostCode($configuration, $postcode)
     {
         try {
             $endpointExtenstion = str_replace('{postcode}', urlencode($postcode), $configuration->getPropertyLookupSearchPath());
@@ -49,7 +50,7 @@ class AddressFinderClient
 
             $statusCode = $response->getStatusCode();
             if (200 == $statusCode) {
-                $results = $this->mapper->mapFindResponse($responseBody->getContents());
+                $results = $this->mapper->mapSearchResponse($responseBody->getContents(), AddressInterface::TYPE_PROPERTY);
 
                 return $results;
             } else {
@@ -78,7 +79,7 @@ class AddressFinderClient
      *
      * @return Address
      */
-    public function getPropertyByIdentifier($configuration, $identifier)
+    public function fetchPropertyByIdentifier($configuration, $identifier)
     {
         try {
             $endpointExtenstion = str_replace('{identifier}', urlencode($identifier), $configuration->getPropertyLookupFetchPath());
@@ -89,7 +90,7 @@ class AddressFinderClient
 
             $statusCode = $response->getStatusCode();
             if (200 == $statusCode) {
-                $result = $this->mapper->mapGetResponse($responseBody->getContents());
+                $result = $this->mapper->mapFetchResponse($responseBody->getContents(), AddressInterface::TYPE_PROPERTY);
 
                 return $result;
             } else {
@@ -118,10 +119,10 @@ class AddressFinderClient
      *
      * @return Address[]
      */
-    public function findStreetsByTerm($configuration, $term)
+    public function searchStreetsByTerm($configuration, $term)
     {
         try {
-            $endpointExtenstion = str_replace('{term}', urlencode($postcode), $configuration->getStreetLookupSearchPath());
+            $endpointExtenstion = str_replace('{term}', urlencode($term), $configuration->getStreetLookupSearchPath());
             $endpoint = $configuration->getBaseUri() . $endpointExtenstion;
 
             $response = $this->client->request('GET', $endpoint);
@@ -130,7 +131,7 @@ class AddressFinderClient
             $statusCode = $response->getStatusCode();
             if (200 == $statusCode) {
                 //This is probably not the right mapping method
-                $results = $this->mapper->mapFindResponse($responseBody->getContents());
+                $results = $this->mapper->mapSearchResponse($responseBody->getContents(), AddressInterface::TYPE_STREET);
 
                 return $results;
             } else {
@@ -159,7 +160,7 @@ class AddressFinderClient
      *
      * @return Address
      */
-    public function getStreetByIdentifier($configuration, $identifier)
+    public function fetchStreetByIdentifier($configuration, $identifier)
     {
         try {
             $endpointExtenstion = str_replace('{identifier}', urlencode($identifier), $configuration->getStreetLookupFetchPath());
@@ -170,7 +171,7 @@ class AddressFinderClient
 
             $statusCode = $response->getStatusCode();
             if (200 == $statusCode) {
-                $result = $this->mapper->mapGetResponse($responseBody->getContents());
+                $result = $this->mapper->mapFetchResponse($responseBody->getContents(), AddressInterface::TYPE_STREET);
 
                 return $result;
             } else {

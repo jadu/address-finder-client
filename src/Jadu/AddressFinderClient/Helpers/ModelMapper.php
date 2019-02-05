@@ -18,7 +18,7 @@ class ModelMapper
      *
      * @return PropertyModel[]
      */
-    public function mapFindResponse($responseBody)
+    public function mapSearchResponse($responseBody, $responseType)
     {
         try {
             $body = json_decode($responseBody, true);
@@ -29,19 +29,19 @@ class ModelMapper
                 throw $exception;
             }
 
-            $results = [];
+            if (null !== $body['properties']) {
+                $properties = $body['properties'];
 
-            foreach ($body as $property) {
-                $address = new Address();
+                return $this->mapSearchResponseArray($properties, $responseType);
+            } elseif (null !== $body['streets']) {
+                $streets = $body['streets'];
 
-                foreach ($property as $key => $val) {
-                    $this->map($address, $key, $val);
-                }
-
-                array_push($results, $address);
+                return $this->mapSearchResponseArray($streets, $responseType);
+            } else {
+                $exception = new AddressFinderParsingException();
+                $exception->setMessage("There is no root level key with the name 'properties' or 'streets' in response json.");
+                throw $exception;
             }
-
-            return $results;
         } catch (AddressFinderParsingException $e) {
             throw $e;
         } catch (AddressFinderMappingException $e) {
@@ -58,7 +58,7 @@ class ModelMapper
      *
      * @return PropertyModel
      */
-    public function mapGetResponse($responseBody)
+    public function mapFetchResponse($responseBody, $responseType)
     {
         try {
             $body = json_decode($responseBody, true);
@@ -69,13 +69,24 @@ class ModelMapper
                 throw $exception;
             }
 
-            $address = new Address();
+            $addressModel = new Address();
+            $addressModel->setType($responseType);
 
-            foreach ($body as $key => $val) {
-                $this->map($address, $key, $val);
+            if (null !== $body['property']) {
+                foreach ($body['property'] as $key => $val) {
+                    $this->map($addressModel, $key, $val);
+                }
+            } elseif (null !== $body['street']) {
+                foreach ($body['street'] as $key => $val) {
+                    $this->map($addressModel, $key, $val);
+                }
+            } else {
+                $exception = new AddressFinderParsingException();
+                $exception->setMessage("There is no root level key with the name 'property' or 'street' in response json.");
+                throw $exception;
             }
 
-            return $address;
+            return $addressModel;
         } catch (AddressFinderParsingException $e) {
             throw $e;
         } catch (AddressFinderMappingException $e) {
@@ -87,6 +98,26 @@ class ModelMapper
         }
     }
 
+    private function mapSearchResponseArray($addressArray, $responseType)
+    {
+        $results = [];
+        if (0 === \count($addressArray)) {
+            return [];
+        }
+
+        foreach ($addressArray as $address) {
+            $addressModel = new Address();
+            $addressModel->setType($responseType);
+
+            foreach ($address as $key => $val) {
+                $this->map($addressModel, $key, $val);
+            }
+            array_push($results, $addressModel);
+        }
+
+        return $results;
+    }
+
     private function map($address, $property, $value)
     {
         try {
@@ -94,16 +125,13 @@ class ModelMapper
                 case 'identifier':
                     $address->setExternalReference($value);
                     break;
-                case 'uprn':
-                    $address->setUprn($value);
-                    break;
-                case 'usrn':
-                    $address->setUsrn($value);
-                     break;
                 case 'paon':
                     $address->setPaon($value);
                     break;
-                case 'street':
+                case 'saon':
+                $address->setSaon($value);
+                    break;
+                case 'street_name':
                     $address->setStreet($value);
                     break;
                 case 'locality':
@@ -124,11 +152,14 @@ class ModelMapper
                 case 'northing':
                     $address->setNorthing($value);
                     break;
+                case 'uprn':
+                    $address->setUprn($value);
+                    break;
+                case 'usrn':
+                    $address->setUsrn($value);
+                     break;
                 case 'logical_status':
                     $address->setLogicalStatus($value);
-                    break;
-                case 'type':
-                    $address->setType($value);
                     break;
             }
         } catch (\Exception $e) {

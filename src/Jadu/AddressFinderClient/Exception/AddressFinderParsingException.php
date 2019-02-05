@@ -9,7 +9,7 @@ use Exception;
  *
  * @author Jadu Ltd.
  */
-class AddressFinderException extends Exception
+class AddressFinderParsingException extends Exception
 {
     public function setMessage($message)
     {

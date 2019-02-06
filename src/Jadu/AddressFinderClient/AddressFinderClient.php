@@ -7,7 +7,7 @@ use GuzzleHttp\Exception\RequestException;
 use Jadu\AddressFinderClient\Exception\AddressFinderException;
 use Jadu\AddressFinderClient\Exception\AddressFinderHttpResponseException;
 use Jadu\AddressFinderClient\Helpers\ModelMapper as Mapper;
-use Jadu\AddressFinderClient\Model\Address\Contract\AddressInterface;
+use Jadu\ContinuumCommon\Address\Contract\AddressInterface;
 use Jadu\AddressFinderClient\Model\AddressFinderClientConfigurationModel;
 
 /**

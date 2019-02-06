@@ -4,7 +4,7 @@ namespace Jadu\AddressFinderClient\Helpers;
 
 use Jadu\AddressFinderClient\Exception\AddressFinderMappingException;
 use Jadu\AddressFinderClient\Exception\AddressFinderParsingException;
-use Jadu\AddressFinderClient\Model\Address\Model\Address;
+use Jadu\ContinuumCommon\Address\Model\Address;
 
 /**
  * AddressFinderClient.

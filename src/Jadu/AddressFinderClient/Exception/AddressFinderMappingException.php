@@ -11,6 +11,11 @@ use Exception;
  */
 class AddressFinderMappingException extends Exception
 {
+    /**
+     * set Message.
+     *
+     * @param string
+     */
     public function setMessage($message)
     {
         $this->message = $message;

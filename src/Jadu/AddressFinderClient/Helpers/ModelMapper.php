@@ -15,6 +15,7 @@ class ModelMapper
 {
     /**
      * @param string $responseBody
+     * @param string $responseType
      *
      * @return PropertyModel[]
      */
@@ -55,7 +56,8 @@ class ModelMapper
 
     /**
      * @param string $responseBody
-     *
+     * @param string $responseType
+     * 
      * @return PropertyModel
      */
     public function mapFetchResponse($responseBody, $responseType)

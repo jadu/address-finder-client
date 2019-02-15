@@ -38,6 +38,40 @@ class AddressFinderClient
 
     /**
      * @param AddressFinderClientConfigurationModel $addressFinderClientConfigurationModel
+     *
+     * @return bool[]
+     */
+    public function fetchStatus(AddressFinderClientConfigurationModel $addressFinderClientConfigurationModel)
+    {
+        try {
+            $endpoint = $addressFinderClientConfigurationModel->getBaseUri() . $addressFinderClientConfigurationModel->getStatusPath();
+
+            $response = $this->client->request('GET', $endpoint);
+            $statusCode = $response->getStatusCode();
+            if (200 == $statusCode) {
+                return true;
+            } else {
+                // Throw Exception for any errors less than a 400 status code.
+                $exception = new AddressFinderHttpResponseException($statusCode);
+                $exception->setMessage("The server didn't respond with a 200 status code or a status code over 400.");
+                throw $exception;
+            }
+        } catch (RequestException $e) {
+            // Throw Exception for any errors grater than than a 400 status code.
+            $exception = new AddressFinderHttpResponseException($e->getResponse()->getStatusCode());
+            $exception->setMessage($e->getMessage());
+            throw $exception;
+        } catch (AddressFinderHttpResponseException $ex) {
+            throw $ex;
+        } catch (\Exception $e) {
+            $exception = new AddressFinderException();
+            $exception->setMessage($e->getMessage());
+            throw $exception;
+        }
+    }
+
+    /**
+     * @param AddressFinderClientConfigurationModel $addressFinderClientConfigurationModel
      * @param string $postcode
      *
      * @return Address[]

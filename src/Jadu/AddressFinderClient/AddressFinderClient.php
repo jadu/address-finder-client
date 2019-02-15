@@ -22,7 +22,7 @@ class AddressFinderClient
      */
     private $client;
 
-     /**
+    /**
      * @var ModelMapper
      */
     private $mapper;

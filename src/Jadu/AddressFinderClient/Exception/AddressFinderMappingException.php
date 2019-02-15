@@ -12,6 +12,21 @@ use Exception;
 class AddressFinderMappingException extends Exception
 {
     /**
+     * @var array
+     */
+    private $invalidObject;
+
+    /**
+     * set Invalid Object.
+     *
+     * @param array
+     */
+    public function setInvalidObject($invalidObject)
+    {
+        $this->invalidObject = $invalidObject;
+    }
+
+    /**
      * set Message.
      *
      * @param string
@@ -19,5 +34,15 @@ class AddressFinderMappingException extends Exception
     public function setMessage($message)
     {
         $this->message = $message;
+    }
+
+    /**
+     * Get Invalid Object.
+     *
+     * @return array
+     */
+    public function getInvalidObject()
+    {
+        return $this->invalidObject;
     }
 }

@@ -39,71 +39,141 @@ class AddressFinderClientConfigurationModel
      */
     private $streetLookupFetchPath;
 
+    /**
+     * Set Api Key.
+     *
+     * @param string
+     */
     public function setApiKey($apiKey)
     {
         $this->apiKey = $apiKey;
     }
 
+    /**
+     * Set Base Uri.
+     *
+     * @param string
+     */
     public function setBaseUri($baseUri)
     {
         $this->baseUri = $baseUri;
     }
 
+    /**
+     * Set Status Path.
+     *
+     * @param string
+     */
     public function setStatusPath($statusPath)
     {
         $this->statusPath = $statusPath;
     }
 
+    /**
+     * Set Property Lookup Search Path.
+     *
+     * @param string
+     */
     public function setPropertyLookupSearchPath($propertyLookupSearchPath)
     {
         $this->propertyLookupSearchPath = $propertyLookupSearchPath;
     }
 
+    /**
+     * Set Property Lookup Fetch Path.
+     *
+     * @param string
+     */
     public function setPropertyLookupFetchPath($propertyLookupFetchPath)
     {
         $this->propertyLookupFetchPath = $propertyLookupFetchPath;
     }
 
+    /**
+     * Set Street Lookup Search Path.
+     *
+     * @param string
+     */
     public function setStreetLookupSearchPath($streetLookupSearchPath)
     {
         $this->streetLookupSearchPath = $streetLookupSearchPath;
     }
 
+    /**
+     * Set Street Lookup Fetch Path.
+     *
+     * @param string
+     */
     public function setStreetLookupFetchPath($streetLookupFetchPath)
     {
         $this->streetLookupFetchPath = $streetLookupFetchPath;
     }
 
+    /**
+     * Get Api Key.
+     *
+     * @return string
+     */
     public function getApiKey()
     {
         return $this->apiKey;
     }
 
+    /**
+     * Get Base Uri.
+     *
+     * @return string
+     */
     public function getBaseUri()
     {
         return $this->baseUri;
     }
 
+    /**
+     * Get Status Path.
+     *
+     * @return string
+     */
     public function getStatusPath()
     {
         return $this->statusPath;
     }
 
+    /**
+     * Get Property Lookup Search Path.
+     *
+     * @return string
+     */
     public function getPropertyLookupSearchPath()
     {
         return $this->propertyLookupSearchPath;
     }
 
+    /**
+     * Get Property Lookup Fetch Path.
+     *
+     * @return string
+     */
     public function getPropertyLookupFetchPath()
     {
         return $this->propertyLookupFetchPath;
     }
 
+    /**
+     * Get Street Lookup Search Path.
+     *
+     * @return string
+     */
     public function getStreetLookupSearchPath()
     {
         return $this->streetLookupSearchPath;
     }
 
+    /**
+     * Get Street Lookup Fetch Path.
+     *
+     * @return string
+     */
     public function getStreetLookupFetchPath()
     {
         return $this->streetLookupFetchPath;

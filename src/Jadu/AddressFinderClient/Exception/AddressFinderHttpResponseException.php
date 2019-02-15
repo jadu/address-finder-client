@@ -22,17 +22,6 @@ class AddressFinderHttpResponseException extends Exception
         $this->statusCode = $statusCode;
     }
 
-   
-    /**
-     * Get StatusCode.
-     *
-     * @return string
-     */
-    public function getStatusCode()
-    {
-        return $this->statusCode;
-    }
-
     /**
      * set Message.
      *
@@ -41,5 +30,15 @@ class AddressFinderHttpResponseException extends Exception
     public function setMessage($message)
     {
         $this->message = $message;
+    }
+
+    /**
+     * Get Status Code.
+     *
+     * @return string
+     */
+    public function getStatusCode()
+    {
+        return $this->statusCode;
     }
 }

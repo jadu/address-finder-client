@@ -17,7 +17,7 @@ class ModelMapper
      * @param string $responseBody
      * @param string $responseType
      *
-     * @return PropertyModel[]
+     * @return Address[]
      */
     public function mapSearchResponse($responseBody, $responseType)
     {
@@ -44,8 +44,10 @@ class ModelMapper
                 throw $exception;
             }
         } catch (AddressFinderParsingException $e) {
+            $e->setResponseObject($body);
             throw $e;
         } catch (AddressFinderMappingException $e) {
+            $e->setInvalidObject($body);
             throw $e;
         } catch (\Exception $e) {
             $exception = new AddressFinderMappingException();
@@ -57,8 +59,8 @@ class ModelMapper
     /**
      * @param string $responseBody
      * @param string $responseType
-     * 
-     * @return PropertyModel
+     *
+     * @return Address
      */
     public function mapFetchResponse($responseBody, $responseType)
     {
@@ -90,8 +92,12 @@ class ModelMapper
 
             return $addressModel;
         } catch (AddressFinderParsingException $e) {
+            $e->setResponseObject($body);
+            var_dump($e->ResponseObject());
             throw $e;
         } catch (AddressFinderMappingException $e) {
+            $e->setInvalidObject($body);
+            var_dump($e->getInvalidObject());
             throw $e;
         } catch (\Exception $e) {
             $exception = new AddressFinderMappingException();
@@ -100,6 +106,12 @@ class ModelMapper
         }
     }
 
+    /**
+     * @param array $addressArray
+     * @param string $responseType
+     *
+     * @return Address[]
+     */
     private function mapSearchResponseArray($addressArray, $responseType)
     {
         $results = [];
@@ -120,7 +132,14 @@ class ModelMapper
         return $results;
     }
 
-    private function map($address, $property, $value)
+    /**
+     * @param Address $address
+     * @param string $property
+     * @param string $value
+     *
+     * @return Address
+     */
+    private function map(Address $address, $property, $value)
     {
         try {
             switch ($property) {

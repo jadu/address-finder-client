@@ -39,7 +39,7 @@ class AddressFinderClient
     /**
      * @param AddressFinderClientConfigurationModel $addressFinderClientConfigurationModel
      *
-     * @return bool[]
+     * @return bool
      */
     public function fetchStatus(AddressFinderClientConfigurationModel $addressFinderClientConfigurationModel)
     {

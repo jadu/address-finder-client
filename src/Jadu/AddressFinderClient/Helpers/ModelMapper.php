@@ -7,7 +7,7 @@ use Jadu\AddressFinderClient\Exception\AddressFinderParsingException;
 use Jadu\AddressFinderClient\Model\Address\Model\Address;
 
 /**
- * AddressFinderClient.
+ * ModelMapper.
  *
  * @author Jadu Ltd.
  */
@@ -93,11 +93,9 @@ class ModelMapper
             return $addressModel;
         } catch (AddressFinderParsingException $e) {
             $e->setResponseObject($body);
-            var_dump($e->ResponseObject());
             throw $e;
         } catch (AddressFinderMappingException $e) {
             $e->setInvalidObject($body);
-            var_dump($e->getInvalidObject());
             throw $e;
         } catch (\Exception $e) {
             $exception = new AddressFinderMappingException();

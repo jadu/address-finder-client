@@ -23,6 +23,23 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
         parent::setUp();
     }
 
+    public function testFetchAddressFinderClientConfiguration()
+    {
+        //Arrange
+        $addressFinderClient = new AddressFinderClient($this->createClient(200, $this->createMockAddressFinderClientConfigurationModel()));
+        $expectedResponse = $this->createConfiguration();
+        //Act
+        $result = $addressFinderClient->fetchAddressFinderClientConfiguration('http://localhost:8000/getaddressconfiguration');
+
+        //Assert
+        $this->assertSame($result->getBaseUri(), $expectedResponse->getBaseUri());
+        $this->assertSame($result->getStatusPath(), $expectedResponse->getStatusPath());
+        $this->assertSame($result->getPropertyLookupSearchPath(), $expectedResponse->getPropertyLookupSearchPath());
+        $this->assertSame($result->getPropertyLookupFetchPath(), $expectedResponse->getPropertyLookupFetchPath());
+        $this->assertSame($result->getStreetLookupSearchPath(), $expectedResponse->getStreetLookupSearchPath());
+        $this->assertSame($result->getStreetLookupFetchPath(), $expectedResponse->getStreetLookupFetchPath());
+    }
+
     public function testFetchStatusByPostCodeExpectingValidResponse()
     {
         //Arrange
@@ -278,6 +295,11 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
     private function createMockFindStreetsByTermEmptyResponse()
     {
         return '{"streets":[]}';
+    }
+
+    private function createMockAddressFinderClientConfigurationModel()
+    {
+        return '{"base_uri":"http://localhost:8000","status_path":"/status","property_lookup":{"search_path":"/property/search/{postcode}","fetch_path":"/property/fetch/{identifier}"},"street_lookup":{"search_path":"/street/search/{term}","fetch_path":"/street/fetch/{identifier}"}}';
     }
 
     private function createExpectedPropertyResponseOne()

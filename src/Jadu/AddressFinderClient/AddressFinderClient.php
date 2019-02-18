@@ -6,7 +6,8 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 use Jadu\AddressFinderClient\Exception\AddressFinderException;
 use Jadu\AddressFinderClient\Exception\AddressFinderHttpResponseException;
-use Jadu\AddressFinderClient\Helpers\ModelMapper as Mapper;
+use Jadu\AddressFinderClient\Helpers\AddressFinderClientConfigurationMapper;
+use Jadu\AddressFinderClient\Helpers\ModelMapper;
 use Jadu\AddressFinderClient\Model\Address\Contract\AddressInterface;
 use Jadu\AddressFinderClient\Model\AddressFinderClientConfigurationModel;
 
@@ -25,7 +26,12 @@ class AddressFinderClient
     /**
      * @var ModelMapper
      */
-    private $mapper;
+    private $modelMapper;
+
+    /**
+     * @var AddressFinderClientConfigurationMapper
+     */
+    private $addressFinderClientConfigurationMapper;
 
     /**
      * @param Client $client
@@ -33,7 +39,42 @@ class AddressFinderClient
     public function __construct(Client $client)
     {
         $this->client = $client;
-        $this->mapper = new Mapper();
+        $this->modelMapper = new ModelMapper();
+        $this->addressFinderClientConfigurationMapper = new AddressFinderClientConfigurationMapper();
+    }
+
+    /**
+     * @param string $url
+     *
+     * @return AddressFinderClientConfigurationModel
+     */
+    public function fetchAddressFinderClientConfiguration($url)
+    {
+        try {
+            $response = $this->client->request('GET', $url);
+            $responseBody = $response->getBody();
+            $statusCode = $response->getStatusCode();
+
+            if (200 == $statusCode) {
+                return $this->addressFinderClientConfigurationMapper->mapFetchAddressFinderClientConfigurationResponse($responseBody->getContents());
+            } else {
+                // Throw Exception for any errors less than a 400 status code.
+                $exception = new AddressFinderHttpResponseException($statusCode);
+                $exception->setMessage("The server didn't respond with a 200 status code or a status code over 400.");
+                throw $exception;
+            }
+        } catch (RequestException $e) {
+            // Throw Exception for any errors grater than than a 400 status code.
+            $exception = new AddressFinderHttpResponseException($e->getResponse()->getStatusCode());
+            $exception->setMessage($e->getMessage());
+            throw $exception;
+        } catch (AddressFinderHttpResponseException $ex) {
+            throw $ex;
+        } catch (\Exception $e) {
+            $exception = new AddressFinderException();
+            $exception->setMessage($e->getMessage());
+            throw $exception;
+        }
     }
 
     /**
@@ -87,7 +128,7 @@ class AddressFinderClient
 
             $statusCode = $response->getStatusCode();
             if (200 == $statusCode) {
-                $results = $this->mapper->mapSearchResponse($responseBody->getContents(), AddressInterface::TYPE_PROPERTY);
+                $results = $this->modelMapper->mapSearchResponse($responseBody->getContents(), AddressInterface::TYPE_PROPERTY);
 
                 return $results;
             } else {
@@ -127,7 +168,7 @@ class AddressFinderClient
 
             $statusCode = $response->getStatusCode();
             if (200 == $statusCode) {
-                $result = $this->mapper->mapFetchResponse($responseBody->getContents(), AddressInterface::TYPE_PROPERTY);
+                $result = $this->modelMapper->mapFetchResponse($responseBody->getContents(), AddressInterface::TYPE_PROPERTY);
 
                 return $result;
             } else {
@@ -168,7 +209,7 @@ class AddressFinderClient
             $statusCode = $response->getStatusCode();
             if (200 == $statusCode) {
                 //This is probably not the right mapping method
-                $results = $this->mapper->mapSearchResponse($responseBody->getContents(), AddressInterface::TYPE_STREET);
+                $results = $this->modelMapper->mapSearchResponse($responseBody->getContents(), AddressInterface::TYPE_STREET);
 
                 return $results;
             } else {
@@ -208,7 +249,7 @@ class AddressFinderClient
 
             $statusCode = $response->getStatusCode();
             if (200 == $statusCode) {
-                $result = $this->mapper->mapFetchResponse($responseBody->getContents(), AddressInterface::TYPE_STREET);
+                $result = $this->modelMapper->mapFetchResponse($responseBody->getContents(), AddressInterface::TYPE_STREET);
 
                 return $result;
             } else {

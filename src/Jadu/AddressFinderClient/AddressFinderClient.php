@@ -22,10 +22,13 @@ class AddressFinderClient
      */
     private $client;
 
+    /**
+     * @var ModelMapper
+     */
     private $mapper;
 
     /**
-     * @param HttpAdapter $client
+     * @param Client $client
      */
     public function __construct(Client $client)
     {
@@ -34,16 +37,50 @@ class AddressFinderClient
     }
 
     /**
-     * @param AddressFinderClientConfigurationModel $configuration
+     * @param AddressFinderClientConfigurationModel $addressFinderClientConfigurationModel
+     *
+     * @return bool
+     */
+    public function fetchStatus(AddressFinderClientConfigurationModel $addressFinderClientConfigurationModel)
+    {
+        try {
+            $endpoint = $addressFinderClientConfigurationModel->getBaseUri() . $addressFinderClientConfigurationModel->getStatusPath();
+
+            $response = $this->client->request('GET', $endpoint);
+            $statusCode = $response->getStatusCode();
+            if (200 == $statusCode) {
+                return true;
+            } else {
+                // Throw Exception for any errors less than a 400 status code.
+                $exception = new AddressFinderHttpResponseException($statusCode);
+                $exception->setMessage("The server didn't respond with a 200 status code or a status code over 400.");
+                throw $exception;
+            }
+        } catch (RequestException $e) {
+            // Throw Exception for any errors grater than than a 400 status code.
+            $exception = new AddressFinderHttpResponseException($e->getResponse()->getStatusCode());
+            $exception->setMessage($e->getMessage());
+            throw $exception;
+        } catch (AddressFinderHttpResponseException $ex) {
+            throw $ex;
+        } catch (\Exception $e) {
+            $exception = new AddressFinderException();
+            $exception->setMessage($e->getMessage());
+            throw $exception;
+        }
+    }
+
+    /**
+     * @param AddressFinderClientConfigurationModel $addressFinderClientConfigurationModel
      * @param string $postcode
      *
      * @return Address[]
      */
-    public function searchPropertiesByPostCode($configuration, $postcode)
+    public function searchPropertiesByPostCode(AddressFinderClientConfigurationModel $addressFinderClientConfigurationModel, $postcode)
     {
         try {
-            $endpointExtenstion = str_replace('{postcode}', urlencode($postcode), $configuration->getPropertyLookupSearchPath());
-            $endpoint = $configuration->getBaseUri() . $endpointExtenstion;
+            $endpointExtenstion = str_replace('{postcode}', urlencode($postcode), $addressFinderClientConfigurationModel->getPropertyLookupSearchPath());
+            $endpoint = $addressFinderClientConfigurationModel->getBaseUri() . $endpointExtenstion;
 
             $response = $this->client->request('GET', $endpoint);
             $responseBody = $response->getBody();
@@ -74,16 +111,16 @@ class AddressFinderClient
     }
 
     /**
-     * @param AddressFinderClientConfigurationModel $configuration
+     * @param AddressFinderClientConfigurationModel $addressFinderClientConfigurationModel
      * @param string $identifier
      *
      * @return Address
      */
-    public function fetchPropertyByIdentifier($configuration, $identifier)
+    public function fetchPropertyByIdentifier(AddressFinderClientConfigurationModel $addressFinderClientConfigurationModel, $identifier)
     {
         try {
-            $endpointExtenstion = str_replace('{identifier}', urlencode($identifier), $configuration->getPropertyLookupFetchPath());
-            $endpoint = $configuration->getBaseUri() . $endpointExtenstion;
+            $endpointExtenstion = str_replace('{identifier}', urlencode($identifier), $addressFinderClientConfigurationModel->getPropertyLookupFetchPath());
+            $endpoint = $addressFinderClientConfigurationModel->getBaseUri() . $endpointExtenstion;
 
             $response = $this->client->request('GET', $endpoint);
             $responseBody = $response->getBody();
@@ -114,16 +151,16 @@ class AddressFinderClient
     }
 
     /**
-     * @param AddressFinderClientConfigurationModel $configuration
+     * @param AddressFinderClientConfigurationModel $addressFinderClientConfigurationModel
      * @param string $term
      *
      * @return Address[]
      */
-    public function searchStreetsByTerm($configuration, $term)
+    public function searchStreetsByTerm(AddressFinderClientConfigurationModel $addressFinderClientConfigurationModel, $term)
     {
         try {
-            $endpointExtenstion = str_replace('{term}', urlencode($term), $configuration->getStreetLookupSearchPath());
-            $endpoint = $configuration->getBaseUri() . $endpointExtenstion;
+            $endpointExtenstion = str_replace('{term}', urlencode($term), $addressFinderClientConfigurationModel->getStreetLookupSearchPath());
+            $endpoint = $addressFinderClientConfigurationModel->getBaseUri() . $endpointExtenstion;
 
             $response = $this->client->request('GET', $endpoint);
             $responseBody = $response->getBody();
@@ -155,16 +192,16 @@ class AddressFinderClient
     }
 
     /**
-     * @param AddressFinderClientConfigurationModel $configuration
+     * @param AddressFinderClientConfigurationModel $addressFinderClientConfigurationModel
      * @param string $identifier
      *
      * @return Address
      */
-    public function fetchStreetByIdentifier($configuration, $identifier)
+    public function fetchStreetByIdentifier(AddressFinderClientConfigurationModel $addressFinderClientConfigurationModel, $identifier)
     {
         try {
-            $endpointExtenstion = str_replace('{identifier}', urlencode($identifier), $configuration->getStreetLookupFetchPath());
-            $endpoint = $configuration->getBaseUri() . $endpointExtenstion;
+            $endpointExtenstion = str_replace('{identifier}', urlencode($identifier), $addressFinderClientConfigurationModel->getStreetLookupFetchPath());
+            $endpoint = $addressFinderClientConfigurationModel->getBaseUri() . $endpointExtenstion;
 
             $response = $this->client->request('GET', $endpoint);
             $responseBody = $response->getBody();

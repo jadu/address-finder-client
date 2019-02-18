@@ -11,7 +11,9 @@ use Exception;
  */
 class AddressFinderHttpResponseException extends Exception
 {
-    protected $message;
+    /**
+     * @var int
+     */
     protected $statusCode;
 
     public function __construct($statusCode)
@@ -20,13 +22,23 @@ class AddressFinderHttpResponseException extends Exception
         $this->statusCode = $statusCode;
     }
 
-    public function getStatusCode()
-    {
-        return $this->statusCode;
-    }
-
+    /**
+     * set Message.
+     *
+     * @param string
+     */
     public function setMessage($message)
     {
         $this->message = $message;
+    }
+
+    /**
+     * Get Status Code.
+     *
+     * @return string
+     */
+    public function getStatusCode()
+    {
+        return $this->statusCode;
     }
 }

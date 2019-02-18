@@ -23,6 +23,40 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
         parent::setUp();
     }
 
+    public function testFetchStatusByPostCodeExpectingValidResponse()
+    {
+        //Arrange
+        $addressFinderClient = new AddressFinderClient($this->createClient(200, null));
+
+        //Act
+        $result = $addressFinderClient->fetchStatus($this->createConfiguration());
+
+        //Assert
+        $this->assertSame($result, true);
+    }
+
+    public function testFetchStatusExpectingExceptionToBeThrown()
+    {
+        //Arrange
+        $expectedStatusCodes = [202, 300, 400, 401, 404, 500];
+
+        foreach ($expectedStatusCodes as $expectedStatusCode) {
+            $addressFinderClient = new AddressFinderClient($this->createClient($expectedStatusCode, null));
+
+            $caughtException = null;
+
+            //Act
+            try {
+                $results = $addressFinderClient->fetchStatus($this->createConfiguration());
+            } catch (AddressFinderHttpResponseException $ex) {
+                $caughtException = $ex;
+            }
+
+            //Assert
+            $this->assertSame($caughtException->getStatusCode(), $expectedStatusCode);
+        }
+    }
+
     public function testSearchPropertiesByPostCodeExpectingValidResponse()
     {
         //Arrange

@@ -8,8 +8,11 @@
     },
     "repositories": [
         {
-            "type": "composer",
+            "type": "composer", 
             "url": "https://repo-packagist.hq.jadu.net/jadu/"
+        },
+        {
+            "packagist.org": false
         }
     ],
     "require": {

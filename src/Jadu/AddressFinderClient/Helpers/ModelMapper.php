@@ -26,7 +26,7 @@ class ModelMapper
 
             if (is_null($body)) {
                 $exception = new AddressFinderParsingException();
-                $exception->setMessage('There was an error when trying to parse the $responseBody to json.');
+                $exception->setMessage('There was an error when trying to parse the $body to json.');
                 throw $exception;
             }
 
@@ -69,7 +69,7 @@ class ModelMapper
 
             if (is_null($body)) {
                 $exception = new AddressFinderParsingException();
-                $exception->setMessage('There was an error when trying to parse the $responseBody to json.');
+                $exception->setMessage('There was an error when trying to parse the $body to json.');
                 throw $exception;
             }
 

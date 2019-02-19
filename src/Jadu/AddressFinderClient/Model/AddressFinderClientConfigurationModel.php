@@ -7,11 +7,6 @@ class AddressFinderClientConfigurationModel
     /**
      * @var string
      */
-    private $apiKey;
-
-    /**
-     * @var string
-     */
     private $baseUri;
 
     /**
@@ -38,16 +33,6 @@ class AddressFinderClientConfigurationModel
      * @var string
      */
     private $streetLookupFetchPath;
-
-    /**
-     * Set Api Key.
-     *
-     * @param string
-     */
-    public function setApiKey($apiKey)
-    {
-        $this->apiKey = $apiKey;
-    }
 
     /**
      * Set Base Uri.
@@ -107,16 +92,6 @@ class AddressFinderClientConfigurationModel
     public function setStreetLookupFetchPath($streetLookupFetchPath)
     {
         $this->streetLookupFetchPath = $streetLookupFetchPath;
-    }
-
-    /**
-     * Get Api Key.
-     *
-     * @return string
-     */
-    public function getApiKey()
-    {
-        return $this->apiKey;
     }
 
     /**

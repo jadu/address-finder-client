@@ -10,6 +10,7 @@ use Jadu\AddressFinderClient\Helpers\AddressFinderClientConfigurationMapper;
 use Jadu\AddressFinderClient\Helpers\ModelMapper;
 use Jadu\AddressFinderClient\Model\Address\Contract\AddressInterface;
 use Jadu\AddressFinderClient\Model\AddressFinderClientConfigurationModel;
+use Stash\Pool;
 
 /**
  * AddressFinderClient.
@@ -34,13 +35,20 @@ class AddressFinderClient
     private $addressFinderClientConfigurationMapper;
 
     /**
-     * @param Client $client
+     * @var Pool
      */
-    public function __construct(Client $client)
+    protected $pool;
+
+    /**
+     * @param Client $client
+     * @param Pool   $pool
+     */
+    public function __construct(Client $client, Pool $pool)
     {
         $this->client = $client;
         $this->modelMapper = new ModelMapper();
         $this->addressFinderClientConfigurationMapper = new AddressFinderClientConfigurationMapper();
+        $this->pool = $pool;
     }
 
     /**
@@ -51,18 +59,28 @@ class AddressFinderClient
     public function fetchAddressFinderClientConfiguration($url)
     {
         try {
-            $response = $this->client->request('GET', $url);
-            $responseBody = $response->getBody();
-            $statusCode = $response->getStatusCode();
+            $item = $this->pool->getItem($url);
 
-            if (200 == $statusCode) {
-                return $this->addressFinderClientConfigurationMapper->mapFetchAddressFinderClientConfigurationResponse($responseBody->getContents());
-            } else {
-                // Throw Exception for any errors less than a 400 status code.
-                $exception = new AddressFinderHttpResponseException($statusCode);
-                $exception->setMessage("The server didn't respond with a 200 status code or a status code over 400.");
-                throw $exception;
+            $addressFinderClientConfiguration = $item->get();
+
+            if ($item->isMiss()) {
+                $response = $this->client->request('GET', $url);
+                $responseBody = $response->getBody();
+                $statusCode = $response->getStatusCode();
+
+                if (200 == $statusCode) {
+                    $addressFinderClientConfiguration = $this->addressFinderClientConfigurationMapper->mapFetchAddressFinderClientConfigurationResponse($responseBody->getContents());
+
+                    $item->set($addressFinderClientConfiguration);
+                } else {
+                    // Throw Exception for any errors less than a 400 status code.
+                    $exception = new AddressFinderHttpResponseException($statusCode);
+                    $exception->setMessage("The server didn't respond with a 200 status code or a status code over 400.");
+                    throw $exception;
+                }
             }
+
+            return $addressFinderClientConfiguration;
         } catch (RequestException $e) {
             // Throw Exception for any errors grater than than a 400 status code.
             $exception = new AddressFinderHttpResponseException($e->getResponse()->getStatusCode());

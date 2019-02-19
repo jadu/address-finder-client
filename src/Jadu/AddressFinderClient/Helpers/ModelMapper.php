@@ -30,7 +30,7 @@ class ModelMapper
                 throw $exception;
             }
 
-            if (null !== $body['properties']) {
+            if (array_key_exists('properties', $body) && null !== $body['properties']) {
                 $properties = $body['properties'];
 
                 return $this->mapSearchResponseArray($properties, $responseType);
@@ -76,7 +76,7 @@ class ModelMapper
             $addressModel = new Address();
             $addressModel->setType($responseType);
 
-            if (null !== $body['property']) {
+            if (array_key_exists('property', $body) && null !== $body['property']) {
                 foreach ($body['property'] as $key => $val) {
                     $this->map($addressModel, $key, $val);
                 }

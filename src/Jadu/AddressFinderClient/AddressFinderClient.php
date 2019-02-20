@@ -6,10 +6,10 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 use Jadu\AddressFinderClient\Exception\AddressFinderException;
 use Jadu\AddressFinderClient\Exception\AddressFinderHttpResponseException;
-use Jadu\AddressFinderClient\Helpers\ModelMapper;
 use Jadu\AddressFinderClient\Helpers\AddressFinderClientConfigurationMapper;
-use Jadu\ContinuumCommon\Address\Contract\AddressInterface;
+use Jadu\AddressFinderClient\Helpers\ModelMapper;
 use Jadu\AddressFinderClient\Model\AddressFinderClientConfigurationModel;
+use Jadu\ContinuumCommon\Address\Contract\AddressInterface;
 use Stash\Pool;
 
 /**

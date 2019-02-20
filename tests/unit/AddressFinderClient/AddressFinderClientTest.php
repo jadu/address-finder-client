@@ -8,8 +8,8 @@ use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
 use Jadu\AddressFinderClient\AddressFinderClient;
 use Jadu\AddressFinderClient\Exception\AddressFinderHttpResponseException;
-use Jadu\ContinuumCommon\Address\Model\Address as AddressModel;
 use Jadu\AddressFinderClient\Model\AddressFinderClientConfigurationModel;
+use Jadu\ContinuumCommon\Address\Model\Address as AddressModel;
 use Mockery;
 use PHPUnit_Framework_TestCase;
 

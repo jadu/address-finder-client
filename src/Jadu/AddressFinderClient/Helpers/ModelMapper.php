@@ -7,7 +7,7 @@ use Jadu\AddressFinderClient\Exception\AddressFinderParsingException;
 use Jadu\AddressFinderClient\Model\Address\Model\Address;
 
 /**
- * AddressFinderClient.
+ * ModelMapper.
  *
  * @author Jadu Ltd.
  */
@@ -26,11 +26,11 @@ class ModelMapper
 
             if (is_null($body)) {
                 $exception = new AddressFinderParsingException();
-                $exception->setMessage('There was an error when trying to parse the $responseBody to json.');
+                $exception->setMessage('There was an error when trying to parse the $body to json.');
                 throw $exception;
             }
 
-            if (null !== $body['properties']) {
+            if (array_key_exists('properties', $body) && null !== $body['properties']) {
                 $properties = $body['properties'];
 
                 return $this->mapSearchResponseArray($properties, $responseType);
@@ -69,14 +69,14 @@ class ModelMapper
 
             if (is_null($body)) {
                 $exception = new AddressFinderParsingException();
-                $exception->setMessage('There was an error when trying to parse the $responseBody to json.');
+                $exception->setMessage('There was an error when trying to parse the $body to json.');
                 throw $exception;
             }
 
             $addressModel = new Address();
             $addressModel->setType($responseType);
 
-            if (null !== $body['property']) {
+            if (array_key_exists('property', $body) && null !== $body['property']) {
                 foreach ($body['property'] as $key => $val) {
                     $this->map($addressModel, $key, $val);
                 }
@@ -93,11 +93,9 @@ class ModelMapper
             return $addressModel;
         } catch (AddressFinderParsingException $e) {
             $e->setResponseObject($body);
-            var_dump($e->ResponseObject());
             throw $e;
         } catch (AddressFinderMappingException $e) {
             $e->setInvalidObject($body);
-            var_dump($e->getInvalidObject());
             throw $e;
         } catch (\Exception $e) {
             $exception = new AddressFinderMappingException();

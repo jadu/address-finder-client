@@ -23,7 +23,8 @@
         "php-http/message-factory": "^1.0",
         "php-http/discovery": "^1.0",
         "php-http/guzzle6-adapter": "^1.1",
-        "jadu/continuum-common": "~2.0"
+        "jadu/continuum-common": "~2.0",
+        "tedivm/stash-bundle": "^0.6.2"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "*",

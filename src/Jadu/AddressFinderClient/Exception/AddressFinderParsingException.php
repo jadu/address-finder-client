@@ -5,7 +5,7 @@ namespace Jadu\AddressFinderClient\Exception;
 use Exception;
 
 /**
- * AddressFinderException.
+ * AddressFinderParsingException.
  *
  * @author Jadu Ltd.
  */

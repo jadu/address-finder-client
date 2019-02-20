@@ -10,6 +10,7 @@ use Jadu\AddressFinderClient\AddressFinderClient;
 use Jadu\AddressFinderClient\Exception\AddressFinderHttpResponseException;
 use Jadu\ContinuumCommon\Address\Model\Address as AddressModel;
 use Jadu\AddressFinderClient\Model\AddressFinderClientConfigurationModel;
+use Mockery;
 use PHPUnit_Framework_TestCase;
 
 class AddressFinderClientTest extends PHPUnit_Framework_TestCase
@@ -23,10 +24,27 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
         parent::setUp();
     }
 
+    public function testFetchAddressFinderClientConfiguration()
+    {
+        //Arrange
+        $addressFinderClient = new AddressFinderClient($this->createClient(200, $this->createMockAddressFinderClientConfigurationModel()), $this->createEmptyCache());
+        $expectedResponse = $this->createConfiguration();
+        //Act
+        $result = $addressFinderClient->fetchAddressFinderClientConfiguration('http://localhost:8000/getaddressconfiguration', 86400);
+
+        //Assert
+        $this->assertSame($result->getBaseUri(), $expectedResponse->getBaseUri());
+        $this->assertSame($result->getStatusPath(), $expectedResponse->getStatusPath());
+        $this->assertSame($result->getPropertyLookupSearchPath(), $expectedResponse->getPropertyLookupSearchPath());
+        $this->assertSame($result->getPropertyLookupFetchPath(), $expectedResponse->getPropertyLookupFetchPath());
+        $this->assertSame($result->getStreetLookupSearchPath(), $expectedResponse->getStreetLookupSearchPath());
+        $this->assertSame($result->getStreetLookupFetchPath(), $expectedResponse->getStreetLookupFetchPath());
+    }
+
     public function testFetchStatusByPostCodeExpectingValidResponse()
     {
         //Arrange
-        $addressFinderClient = new AddressFinderClient($this->createClient(200, null));
+        $addressFinderClient = new AddressFinderClient($this->createClient(200, null), $this->createEmptyCache());
 
         //Act
         $result = $addressFinderClient->fetchStatus($this->createConfiguration());
@@ -41,7 +59,7 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
         $expectedStatusCodes = [202, 300, 400, 401, 404, 500];
 
         foreach ($expectedStatusCodes as $expectedStatusCode) {
-            $addressFinderClient = new AddressFinderClient($this->createClient($expectedStatusCode, null));
+            $addressFinderClient = new AddressFinderClient($this->createClient($expectedStatusCode, null), $this->createEmptyCache());
 
             $caughtException = null;
 
@@ -64,7 +82,7 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
 
         $mockResponseData = $this->createMockFindPropertiesByPostCodeResponse();
 
-        $addressFinderClient = new AddressFinderClient($this->createClient(200, $mockResponseData));
+        $addressFinderClient = new AddressFinderClient($this->createClient(200, $mockResponseData), $this->createEmptyCache());
 
         //Act
         $results = $addressFinderClient->searchPropertiesByPostCode($this->createConfiguration(), $this->validPostcode);
@@ -84,7 +102,7 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
 
         $mockResponseData = $this->createMockFindPropertiesByPostCodeEmptyResponse();
 
-        $addressFinderClient = new AddressFinderClient($this->createClient(200, $mockResponseData));
+        $addressFinderClient = new AddressFinderClient($this->createClient(200, $mockResponseData), $this->createEmptyCache());
 
         //Act
         $results = $addressFinderClient->searchPropertiesByPostCode($this->createConfiguration(), $this->validPostcode);
@@ -100,7 +118,7 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
         $mockResponseData = $this->createMockFindPropertiesByPostCodeResponse();
 
         foreach ($expectedStatusCodes as $expectedStatusCode) {
-            $addressFinderClient = new AddressFinderClient($this->createClient($expectedStatusCode, $mockResponseData));
+            $addressFinderClient = new AddressFinderClient($this->createClient($expectedStatusCode, $mockResponseData), $this->createEmptyCache());
 
             $caughtException = null;
 
@@ -122,7 +140,7 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
         $expectedResult = $this->createExpectedPropertyResponseOne();
 
         $mockResponseData = $this->createMockGetPropertyByIdentifierResponse();
-        $addressFinderClient = new AddressFinderClient($this->createClient(200, $mockResponseData));
+        $addressFinderClient = new AddressFinderClient($this->createClient(200, $mockResponseData), $this->createEmptyCache());
 
         //Act
         $result = $addressFinderClient->fetchPropertyByIdentifier($this->createConfiguration(), $this->validIdentifier);
@@ -138,7 +156,7 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
         $mockResponseData = $this->createMockGetPropertyByIdentifierResponse();
 
         foreach ($expectedStatusCodes as $expectedStatusCode) {
-            $addressFinderClient = new AddressFinderClient($this->createClient($expectedStatusCode, $mockResponseData));
+            $addressFinderClient = new AddressFinderClient($this->createClient($expectedStatusCode, $mockResponseData), $this->createEmptyCache());
 
             $caughtException = null;
 
@@ -161,7 +179,7 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
 
         $mockResponseData = $this->createMockFindStreetsByTermResponse();
 
-        $addressFinderClient = new AddressFinderClient($this->createClient(200, $mockResponseData));
+        $addressFinderClient = new AddressFinderClient($this->createClient(200, $mockResponseData), $this->createEmptyCache());
 
         //Act
         $result = $addressFinderClient->searchStreetsByTerm($this->createConfiguration(), $this->validTerm);
@@ -179,7 +197,7 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
         $expectedResult = [];
         $mockResponseData = $this->createMockFindStreetsByTermEmptyResponse();
 
-        $addressFinderClient = new AddressFinderClient($this->createClient(200, $mockResponseData));
+        $addressFinderClient = new AddressFinderClient($this->createClient(200, $mockResponseData), $this->createEmptyCache());
 
         //Act
         $results = $addressFinderClient->searchStreetsByTerm($this->createConfiguration(), $this->validPostcode);
@@ -195,7 +213,7 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
         $mockResponseData = $this->createMockFindStreetsByTermResponse();
 
         foreach ($expectedStatusCodes as $expectedStatusCode) {
-            $addressFinderClient = new AddressFinderClient($this->createClient($expectedStatusCode, $mockResponseData));
+            $addressFinderClient = new AddressFinderClient($this->createClient($expectedStatusCode, $mockResponseData), $this->createEmptyCache());
 
             $caughtException = null;
 
@@ -218,7 +236,7 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
 
         $mockResponseData = $this->createMockGetStreetByIdentifierResponse();
 
-        $addressFinderClient = new AddressFinderClient($this->createClient(200, $mockResponseData));
+        $addressFinderClient = new AddressFinderClient($this->createClient(200, $mockResponseData), $this->createEmptyCache());
 
         //Act
         $result = $addressFinderClient->fetchStreetByIdentifier($this->createConfiguration(), $this->validIdentifier);
@@ -234,7 +252,7 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
         $mockResponseData = $this->createMockGetStreetByIdentifierResponse();
 
         foreach ($expectedStatusCodes as $expectedStatusCode) {
-            $addressFinderClient = new AddressFinderClient($this->createClient($expectedStatusCode, $mockResponseData));
+            $addressFinderClient = new AddressFinderClient($this->createClient($expectedStatusCode, $mockResponseData), $this->createEmptyCache());
 
             $caughtException = null;
 
@@ -278,6 +296,11 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
     private function createMockFindStreetsByTermEmptyResponse()
     {
         return '{"streets":[]}';
+    }
+
+    private function createMockAddressFinderClientConfigurationModel()
+    {
+        return '{"base_uri":"http://localhost:8000","status_path":"/status","property_lookup":{"search_path":"/property/search/{postcode}","fetch_path":"/property/fetch/{identifier}"},"street_lookup":{"search_path":"/street/search/{term}","fetch_path":"/street/fetch/{identifier}"}}';
     }
 
     private function createExpectedPropertyResponseOne()
@@ -363,7 +386,6 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
         $configuration = new AddressFinderClientConfigurationModel();
 
         $configuration->setBaseUri('http://localhost:8000');
-        $configuration->setApiKey('Xc31982x53LP98Fsce');
         $configuration->setStatusPath('/status');
         $configuration->setPropertyLookupSearchPath('/property/search/{postcode}');
         $configuration->setPropertyLookupFetchPath('/property/fetch/{identifier}');
@@ -387,5 +409,20 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
         $this->assertSame($result->getExternalReference(), $expectedResult->getExternalReference());
         $this->assertSame($result->getLogicalStatus(), $expectedResult->getLogicalStatus());
         $this->assertSame($result->getType(), $expectedResult->getType());
+    }
+
+    private function createEmptyCache()
+    {
+        $emptyCacheItem = Mockery::mock('Stash\Item');
+        $emptyCacheItem->shouldReceive('get')->andReturn(false);
+        $emptyCacheItem->shouldReceive('isMiss')->andReturn(true);
+        $emptyCacheItem->shouldReceive('isMiss')->andReturn(true);
+        $emptyCacheItem->shouldReceive('expiresAfter');
+        $emptyCacheItem->shouldReceive('set');
+
+        $mockStash = Mockery::mock('Stash\Pool');
+        $mockStash->shouldReceive('getItem')->andReturn($emptyCacheItem);
+
+        return $mockStash;
     }
 }

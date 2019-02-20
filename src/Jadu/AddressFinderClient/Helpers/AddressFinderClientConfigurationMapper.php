@@ -75,11 +75,11 @@ class AddressFinderClientConfigurationMapper
                     $address->setPropertyLookupFetchPath($fetchPath);
                     break;
                 case 'street_lookup':
-                $searchPath = $value['search_path'];
-                $address->setStreetLookupSearchPath($searchPath);
+                    $searchPath = $value['search_path'];
+                    $address->setStreetLookupSearchPath($searchPath);
 
-                $fetchPath = $value['fetch_path'];
-                $address->setStreetLookupFetchPath($fetchPath);
+                    $fetchPath = $value['fetch_path'];
+                    $address->setStreetLookupFetchPath($fetchPath);
                     break;
             }
         } catch (\Exception $e) {

@@ -30,7 +30,7 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
         $addressFinderClient = new AddressFinderClient($this->createClient(200, $this->createMockAddressFinderClientConfigurationModel()), $this->createEmptyCache());
         $expectedResponse = $this->createConfiguration();
         //Act
-        $result = $addressFinderClient->fetchAddressFinderClientConfiguration('http://localhost:8000/getaddressconfiguration');
+        $result = $addressFinderClient->fetchAddressFinderClientConfiguration('http://localhost:8000/getaddressconfiguration', 86400);
 
         //Assert
         $this->assertSame($result->getBaseUri(), $expectedResponse->getBaseUri());
@@ -416,6 +416,8 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
         $emptyCacheItem = Mockery::mock('Stash\Item');
         $emptyCacheItem->shouldReceive('get')->andReturn(false);
         $emptyCacheItem->shouldReceive('isMiss')->andReturn(true);
+        $emptyCacheItem->shouldReceive('isMiss')->andReturn(true);
+        $emptyCacheItem->shouldReceive('expiresAfter');
         $emptyCacheItem->shouldReceive('set');
 
         $mockStash = Mockery::mock('Stash\Pool');

@@ -53,10 +53,11 @@ class AddressFinderClient
 
     /**
      * @param string $url
+     * @param int $cacheTimeout
      *
      * @return AddressFinderClientConfigurationModel
      */
-    public function fetchAddressFinderClientConfiguration($url)
+    public function fetchAddressFinderClientConfiguration($url, $cacheTimeout)
     {
         try {
             $item = $this->pool->getItem($url);
@@ -70,7 +71,7 @@ class AddressFinderClient
 
                 if (200 == $statusCode) {
                     $addressFinderClientConfiguration = $this->addressFinderClientConfigurationMapper->mapFetchAddressFinderClientConfigurationResponse($responseBody->getContents());
-
+                    $item->expiresAfter($cacheTimeout);
                     $item->set($addressFinderClientConfiguration);
                 } else {
                     // Throw Exception for any errors less than a 400 status code.

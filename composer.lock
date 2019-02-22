@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "fe33732d49b8c795ceea8f3ce49fbdce",
+    "content-hash": "f559dc0b3c2efd82827956c51dd9b36f",
     "packages": [
         {
             "name": "doctrine/collections",
@@ -292,6 +292,7 @@
                 "type": "zip",
                 "url": "https://repo-packagist.hq.jadu.net/jadu/dists/jadu/continuum-common/2.1.0.0/79138cedebf3bf8209bd016f0af52e31149df82d.zip",
                 "reference": "79138cedebf3bf8209bd016f0af52e31149df82d",
+                "shasum": null,
                 "mirrors": [
                     {
                         "url": "https://repo-packagist.hq.jadu.net/jadu/dists/%package%/%version%/%reference%.%type%",
@@ -1451,7 +1452,13 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/symfony/polyfill-ctype/zipball/e3d826245268269cd66f8326bd8bc066687b4a19",
                 "reference": "e3d826245268269cd66f8326bd8bc066687b4a19",
-                "shasum": ""
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://repo-packagist.hq.jadu.net/jadu/dists/%package%/%version%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
             },
             "require": {
                 "php": ">=5.3.3"
@@ -2240,6 +2247,43 @@
                 "test"
             ],
             "time": "2015-05-11T14:41:42+00:00"
+        },
+        {
+            "name": "jadu/php-style",
+            "version": "1.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://gitlab.hq.jadu.net/engineering/php-style.git",
+                "reference": "12e3c1092473ea8c1f64cf4cd29bb350f6d487af"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://repo-packagist.hq.jadu.net/jadu/dists/jadu/php-style/1.1.2.0/12e3c1092473ea8c1f64cf4cd29bb350f6d487af.zip",
+                "reference": "12e3c1092473ea8c1f64cf4cd29bb350f6d487af",
+                "shasum": null,
+                "mirrors": [
+                    {
+                        "url": "https://repo-packagist.hq.jadu.net/jadu/dists/%package%/%version%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "friendsofphp/php-cs-fixer": "^2.0",
+                "php": ">=5.6"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Jadu\\Style\\": "src/"
+                }
+            },
+            "notification-url": "https://repo-packagist.hq.jadu.net/jadu/downloads/",
+            "license": [
+                "proprietary"
+            ],
+            "description": "Jadu PHP coding style configuration for PHP-CS-Fixer",
+            "time": "2018-07-06T09:18:51+00:00"
         },
         {
             "name": "mockery/mockery",
@@ -4200,7 +4244,8 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=5.6"
+        "php": ">=5.6",
+        "ext-json": "*"
     },
     "platform-dev": [],
     "platform-overrides": {

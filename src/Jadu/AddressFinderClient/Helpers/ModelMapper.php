@@ -2,9 +2,11 @@
 
 namespace Jadu\AddressFinderClient\Helpers;
 
+use Exception;
 use Jadu\AddressFinderClient\Exception\AddressFinderMappingException;
 use Jadu\AddressFinderClient\Exception\AddressFinderParsingException;
-use Jadu\ContinuumCommon\Address\Model\Address;
+use Jadu\AddressFinderClient\Model\Address;
+use Jadu\ContinuumCommon\Address\Contract\AddressInterface;
 
 /**
  * ModelMapper.
@@ -17,16 +19,21 @@ class ModelMapper
      * @param string $responseBody
      * @param string $responseType
      *
-     * @return Address[]
+     * @return AddressInterface[]
+     *
+     * @throws AddressFinderMappingException
+     * @throws AddressFinderParsingException
      */
     public function mapSearchResponse($responseBody, $responseType)
     {
+        $body = null;
         try {
             $body = json_decode($responseBody, true);
 
             if (is_null($body)) {
                 $exception = new AddressFinderParsingException();
-                $exception->setMessage('There was an error when trying to parse the $body to json.');
+                $exception->setResponseObject($responseBody);
+                $exception->setMessage('The response contains invalid json');
                 throw $exception;
             }
 
@@ -34,22 +41,23 @@ class ModelMapper
                 $properties = $body['properties'];
 
                 return $this->mapSearchResponseArray($properties, $responseType);
-            } elseif (null !== $body['streets']) {
+            } elseif (array_key_exists('streets', $body) && null !== $body['streets']) {
                 $streets = $body['streets'];
 
                 return $this->mapSearchResponseArray($streets, $responseType);
             } else {
                 $exception = new AddressFinderParsingException();
-                $exception->setMessage("There is no root level key with the name 'properties' or 'streets' in response json.");
+                $exception->setMessage(
+                    'There is no root level key with the name "properties" or "streets" in the json response'
+                );
                 throw $exception;
             }
         } catch (AddressFinderParsingException $e) {
-            $e->setResponseObject($body);
             throw $e;
         } catch (AddressFinderMappingException $e) {
             $e->setInvalidObject($body);
             throw $e;
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $exception = new AddressFinderMappingException();
             $exception->setMessage($e->getMessage());
             throw $exception;
@@ -60,16 +68,21 @@ class ModelMapper
      * @param string $responseBody
      * @param string $responseType
      *
-     * @return Address
+     * @return AddressInterface
+     *
+     * @throws AddressFinderMappingException
+     * @throws AddressFinderParsingException
      */
     public function mapFetchResponse($responseBody, $responseType)
     {
+        $body = null;
         try {
             $body = json_decode($responseBody, true);
 
             if (is_null($body)) {
                 $exception = new AddressFinderParsingException();
-                $exception->setMessage('There was an error when trying to parse the $body to json.');
+                $exception->setResponseObject($responseBody);
+                $exception->setMessage('The response contains invalid json');
                 throw $exception;
             }
 
@@ -80,24 +93,25 @@ class ModelMapper
                 foreach ($body['property'] as $key => $val) {
                     $this->map($addressModel, $key, $val);
                 }
-            } elseif (null !== $body['street']) {
+            } elseif (array_key_exists('street', $body) && null !== $body['street']) {
                 foreach ($body['street'] as $key => $val) {
                     $this->map($addressModel, $key, $val);
                 }
             } else {
                 $exception = new AddressFinderParsingException();
-                $exception->setMessage("There is no root level key with the name 'property' or 'street' in response json.");
+                $exception->setMessage(
+                    'There is no root level key with the name "property" or "street" in the json response'
+                );
                 throw $exception;
             }
 
             return $addressModel;
         } catch (AddressFinderParsingException $e) {
-            $e->setResponseObject($body);
             throw $e;
         } catch (AddressFinderMappingException $e) {
             $e->setInvalidObject($body);
             throw $e;
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $exception = new AddressFinderMappingException();
             $exception->setMessage($e->getMessage());
             throw $exception;
@@ -108,7 +122,9 @@ class ModelMapper
      * @param array $addressArray
      * @param string $responseType
      *
-     * @return Address[]
+     * @return AddressInterface[]
+     *
+     * @throws AddressFinderMappingException
      */
     private function mapSearchResponseArray($addressArray, $responseType)
     {
@@ -135,7 +151,7 @@ class ModelMapper
      * @param string $property
      * @param string $value
      *
-     * @return Address
+     * @throws AddressFinderMappingException
      */
     private function map(Address $address, $property, $value)
     {
@@ -148,7 +164,7 @@ class ModelMapper
                     $address->setPaon($value);
                     break;
                 case 'saon':
-                $address->setSaon($value);
+                    $address->setSaon($value);
                     break;
                 case 'street_name':
                     $address->setStreet($value);
@@ -176,12 +192,12 @@ class ModelMapper
                     break;
                 case 'usrn':
                     $address->setUsrn($value);
-                     break;
+                    break;
                 case 'logical_status':
                     $address->setLogicalStatus($value);
                     break;
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $exception = new AddressFinderMappingException();
             $exception->setMessage($e->getMessage());
             throw $exception;

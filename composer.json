@@ -8,7 +8,7 @@
     },
     "repositories": [
         {
-            "type": "composer", 
+            "type": "composer",
             "url": "https://repo-packagist.hq.jadu.net/jadu/"
         },
         {
@@ -24,7 +24,7 @@
         "php-http/discovery": "^1.0",
         "php-http/guzzle6-adapter": "^1.1",
         "jadu/continuum-common": "~2.0",
-        "tedivm/stash-bundle": "^0.6.2"
+        "ext-json": "*"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "*",
@@ -32,7 +32,8 @@
         "mockery/mockery": "0.9.10",
         "php-http/mock-client": "^1.0",
         "php-http/message": "^1.0",
-        "guzzlehttp/psr7": "^1.0"
+        "guzzlehttp/psr7": "^1.0",
+        "jadu/php-style": "^1.0"
     },
     "config": {
         "bin-dir": "vendor/bin",

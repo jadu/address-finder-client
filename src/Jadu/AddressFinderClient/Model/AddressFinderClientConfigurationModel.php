@@ -2,8 +2,18 @@
 
 namespace Jadu\AddressFinderClient\Model;
 
+/**
+ * Class AddressFinderClientConfigurationModel.
+ *
+ * @author Jadu Ltd.
+ */
 class AddressFinderClientConfigurationModel
 {
+    /**
+     * @var string
+     */
+    private $apiKey;
+
     /**
      * @var string
      */
@@ -33,6 +43,16 @@ class AddressFinderClientConfigurationModel
      * @var string
      */
     private $streetLookupFetchPath;
+
+    /**
+     * Set Api Key.
+     *
+     * @param string $apiKey
+     */
+    public function setApiKey($apiKey)
+    {
+        $this->apiKey = $apiKey;
+    }
 
     /**
      * Set Base Uri.
@@ -92,6 +112,16 @@ class AddressFinderClientConfigurationModel
     public function setStreetLookupFetchPath($streetLookupFetchPath)
     {
         $this->streetLookupFetchPath = $streetLookupFetchPath;
+    }
+
+    /**
+     * Get Api Key.
+     *
+     * @return string
+     */
+    public function getApiKey()
+    {
+        return $this->apiKey;
     }
 
     /**

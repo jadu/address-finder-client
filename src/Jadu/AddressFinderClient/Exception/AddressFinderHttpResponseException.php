@@ -16,6 +16,11 @@ class AddressFinderHttpResponseException extends Exception
      */
     protected $statusCode;
 
+    /**
+     * AddressFinderHttpResponseException constructor.
+     *
+     * @param $statusCode
+     */
     public function __construct($statusCode)
     {
         $this->message = 'The server responded with a ' . $statusCode . ' status code.';

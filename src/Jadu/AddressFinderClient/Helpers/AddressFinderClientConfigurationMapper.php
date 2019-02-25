@@ -2,6 +2,7 @@
 
 namespace Jadu\AddressFinderClient\Helpers;
 
+use Exception;
 use Jadu\AddressFinderClient\Exception\AddressFinderMappingException;
 use Jadu\AddressFinderClient\Exception\AddressFinderParsingException;
 use Jadu\AddressFinderClient\Model\AddressFinderClientConfigurationModel;
@@ -15,18 +16,22 @@ class AddressFinderClientConfigurationMapper
 {
     /**
      * @param string $responseBody
-     * @param string $responseType
      *
-     * @return Address
+     * @return AddressFinderClientConfigurationModel
+     *
+     * @throws AddressFinderMappingException
+     * @throws AddressFinderParsingException
      */
     public function mapFetchAddressFinderClientConfigurationResponse($responseBody)
     {
+        $body = null;
         try {
             $body = json_decode($responseBody, true);
 
             if (is_null($body)) {
                 $exception = new AddressFinderParsingException();
-                $exception->setMessage('There was an error when trying to parse the $responseBody to json.');
+                $exception->setResponseObject($responseBody);
+                $exception->setMessage('The response contains invalid json');
                 throw $exception;
             }
 
@@ -38,12 +43,11 @@ class AddressFinderClientConfigurationMapper
 
             return $addressFinderClientConfigurationModel;
         } catch (AddressFinderParsingException $e) {
-            $e->setResponseObject($body);
             throw $e;
         } catch (AddressFinderMappingException $e) {
             $e->setInvalidObject($body);
             throw $e;
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $exception = new AddressFinderMappingException();
             $exception->setMessage($e->getMessage());
             throw $exception;
@@ -51,35 +55,35 @@ class AddressFinderClientConfigurationMapper
     }
 
     /**
-     * @param AddressFinderClientConfigurationModel $address
+     * @param AddressFinderClientConfigurationModel $config
      * @param string $property
      * @param string $value
      *
-     * @return AddressFinderClientConfigurationModel
+     * @throws AddressFinderMappingException
      */
-    private function map(AddressFinderClientConfigurationModel $address, $property, $value)
+    private function map(AddressFinderClientConfigurationModel $config, $property, $value)
     {
         try {
             switch ($property) {
                 case 'base_uri':
-                    $address->setBaseUri($value);
+                    $config->setBaseUri($value);
                     break;
                 case 'status_path':
-                    $address->setStatusPath($value);
+                    $config->setStatusPath($value);
                     break;
                 case 'property_lookup':
                     $searchPath = $value['search_path'];
-                    $address->setPropertyLookupSearchPath($searchPath);
+                    $config->setPropertyLookupSearchPath($searchPath);
 
                     $fetchPath = $value['fetch_path'];
-                    $address->setPropertyLookupFetchPath($fetchPath);
+                    $config->setPropertyLookupFetchPath($fetchPath);
                     break;
                 case 'street_lookup':
                     $searchPath = $value['search_path'];
-                    $address->setStreetLookupSearchPath($searchPath);
+                    $config->setStreetLookupSearchPath($searchPath);
 
                     $fetchPath = $value['fetch_path'];
-                    $address->setStreetLookupFetchPath($fetchPath);
+                    $config->setStreetLookupFetchPath($fetchPath);
                     break;
             }
         } catch (\Exception $e) {

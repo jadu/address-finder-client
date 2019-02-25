@@ -93,14 +93,14 @@ class ModelMapper
                 foreach ($body['property'] as $key => $val) {
                     $this->map($addressModel, $key, $val);
                 }
-            } elseif (null !== $body['street']) {
+            } elseif (array_key_exists('street', $body) && null !== $body['street']) {
                 foreach ($body['street'] as $key => $val) {
                     $this->map($addressModel, $key, $val);
                 }
             } else {
                 $exception = new AddressFinderParsingException();
                 $exception->setMessage(
-                    'There is no root level key with the name "properties" or "streets" in the json response'
+                    'There is no root level key with the name "property" or "street" in the json response'
                 );
                 throw $exception;
             }

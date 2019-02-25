@@ -66,7 +66,6 @@ class AddressFinderClientConfigurationMapper
         try {
             switch ($property) {
                 case 'base_uri':
-                case 'base_url':
                     $config->setBaseUri($value);
                     break;
                 case 'status_path':

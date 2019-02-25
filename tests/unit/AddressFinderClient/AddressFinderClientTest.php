@@ -19,9 +19,9 @@ use PHPUnit_Framework_TestCase;
  */
 class AddressFinderClientTest extends PHPUnit_Framework_TestCase
 {
-    private $validPostcode = 'LE19+1RJ';
+    private $validPostcode = 'LE19%201RJ';
     private $validIdentifier = '10001228376';
-    private $validTerm = 'meruscourt';
+    private $validTerm = 'merus%20court';
 
     protected function setUp()
     {

@@ -76,9 +76,7 @@ class AddressFinderClient
             return $addressFinderClientConfiguration;
         } catch (RequestException $e) {
             // Throw Exception for any errors grater than than a 400 status code.
-            $exception = new AddressFinderHttpResponseException($e->getCode());
-            $exception->setMessage($e->getMessage());
-            throw $exception;
+            throw new AddressFinderHttpResponseException($e->getCode());
         } catch (AddressFinderHttpResponseException $ex) {
             throw $ex;
         } catch (\Exception $e) {

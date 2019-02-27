@@ -6,14 +6,34 @@
             "": "src/"
         }
     },
-    "repositories": [],
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://repo-packagist.hq.jadu.net/jadu/"
+        },
+        {
+            "packagist.org": false
+        }
+    ],
     "require": {
-        "php": ">=5.6"
+        "php": ">=5.6",
+        "psr/http-message": "^1.0",
+        "php-http/client-implementation": "^1.0",
+        "php-http/httplug": "^1.0",
+        "php-http/message-factory": "^1.0",
+        "php-http/discovery": "^1.0",
+        "php-http/guzzle6-adapter": "^1.1",
+        "jadu/continuum-common": "~2.0",
+        "ext-json": "*"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "*",
-        "phpunit/phpunit": "~4.8",
-        "mockery/mockery": "*"
+        "phpunit/phpunit": "5.7",
+        "mockery/mockery": "0.9.10",
+        "php-http/mock-client": "^1.0",
+        "php-http/message": "^1.0",
+        "guzzlehttp/psr7": "^1.0",
+        "jadu/php-style": "^1.0"
     },
     "config": {
         "bin-dir": "vendor/bin",

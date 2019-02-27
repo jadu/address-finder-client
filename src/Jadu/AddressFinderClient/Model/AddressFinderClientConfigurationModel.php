@@ -2,40 +2,185 @@
 
 namespace Jadu\AddressFinderClient\Model;
 
+/**
+ * Class AddressFinderClientConfigurationModel.
+ *
+ * @author Jadu Ltd.
+ */
 class AddressFinderClientConfigurationModel
 {
     /**
      * @var string
      */
-    public $apiKey;
+    private $apiKey;
 
     /**
      * @var string
      */
-    public $baseUri;
+    private $baseUri;
 
     /**
      * @var string
      */
-    public $statusPath;
+    private $statusPath;
 
     /**
      * @var string
      */
-    public $propertyLookupSearchPath;
+    private $propertyLookupSearchPath;
 
     /**
      * @var string
      */
-    public $propertyLookupFetchPath;
+    private $propertyLookupFetchPath;
 
     /**
      * @var string
      */
-    public $streetLookupSearchPath;
+    private $streetLookupSearchPath;
 
     /**
      * @var string
      */
-    public $streetLookupFetchPath;
+    private $streetLookupFetchPath;
+
+    /**
+     * Set Api Key.
+     *
+     * @param string $apiKey
+     */
+    public function setApiKey($apiKey)
+    {
+        $this->apiKey = $apiKey;
+    }
+
+    /**
+     * Set Base Uri.
+     *
+     * @param string
+     */
+    public function setBaseUri($baseUri)
+    {
+        $this->baseUri = $baseUri;
+    }
+
+    /**
+     * Set Status Path.
+     *
+     * @param string
+     */
+    public function setStatusPath($statusPath)
+    {
+        $this->statusPath = $statusPath;
+    }
+
+    /**
+     * Set Property Lookup Search Path.
+     *
+     * @param string
+     */
+    public function setPropertyLookupSearchPath($propertyLookupSearchPath)
+    {
+        $this->propertyLookupSearchPath = $propertyLookupSearchPath;
+    }
+
+    /**
+     * Set Property Lookup Fetch Path.
+     *
+     * @param string
+     */
+    public function setPropertyLookupFetchPath($propertyLookupFetchPath)
+    {
+        $this->propertyLookupFetchPath = $propertyLookupFetchPath;
+    }
+
+    /**
+     * Set Street Lookup Search Path.
+     *
+     * @param string
+     */
+    public function setStreetLookupSearchPath($streetLookupSearchPath)
+    {
+        $this->streetLookupSearchPath = $streetLookupSearchPath;
+    }
+
+    /**
+     * Set Street Lookup Fetch Path.
+     *
+     * @param string
+     */
+    public function setStreetLookupFetchPath($streetLookupFetchPath)
+    {
+        $this->streetLookupFetchPath = $streetLookupFetchPath;
+    }
+
+    /**
+     * Get Api Key.
+     *
+     * @return string
+     */
+    public function getApiKey()
+    {
+        return $this->apiKey;
+    }
+
+    /**
+     * Get Base Uri.
+     *
+     * @return string
+     */
+    public function getBaseUri()
+    {
+        return $this->baseUri;
+    }
+
+    /**
+     * Get Status Path.
+     *
+     * @return string
+     */
+    public function getStatusPath()
+    {
+        return $this->statusPath;
+    }
+
+    /**
+     * Get Property Lookup Search Path.
+     *
+     * @return string
+     */
+    public function getPropertyLookupSearchPath()
+    {
+        return $this->propertyLookupSearchPath;
+    }
+
+    /**
+     * Get Property Lookup Fetch Path.
+     *
+     * @return string
+     */
+    public function getPropertyLookupFetchPath()
+    {
+        return $this->propertyLookupFetchPath;
+    }
+
+    /**
+     * Get Street Lookup Search Path.
+     *
+     * @return string
+     */
+    public function getStreetLookupSearchPath()
+    {
+        return $this->streetLookupSearchPath;
+    }
+
+    /**
+     * Get Street Lookup Fetch Path.
+     *
+     * @return string
+     */
+    public function getStreetLookupFetchPath()
+    {
+        return $this->streetLookupFetchPath;
+    }
 }

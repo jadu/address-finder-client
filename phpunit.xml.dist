@@ -9,11 +9,11 @@
     processIsolation="false"
     stopOnFailure="false"
     syntaxCheck="false"
-    bootstrap="tests/phpunit/bootstrap.php">
+    bootstrap="tests/unit/bootstrap.php">
 
     <testsuites>
         <testsuite name="unit">
-            <directory>tests/phpunit</directory>
+            <directory>tests/unit</directory>
         </testsuite>
     </testsuites>
 
@@ -25,7 +25,7 @@
             <directory>vendor</directory>
         </blacklist>
     </filter>
-
+ 
     <listeners>
         <listener class="\Mockery\Adapter\Phpunit\TestListener" />
     </listeners>

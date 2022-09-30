@@ -6,12 +6,6 @@
             "": "src/"
         }
     },
-    "repositories": [
-        {
-            "type": "composer",
-            "url": "https://repo-packagist.hq.jadu.net/jadu/"
-        }
-    ],
     "require": {
         "php": ">=7.2.5",
         "psr/http-message": "^1.0",

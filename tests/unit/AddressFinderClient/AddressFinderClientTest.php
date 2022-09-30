@@ -42,12 +42,12 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
         );
 
         //Assert
-        $this->assertSame($result->getBaseUri(), $expectedResponse->getBaseUri());
-        $this->assertSame($result->getStatusPath(), $expectedResponse->getStatusPath());
-        $this->assertSame($result->getPropertyLookupSearchPath(), $expectedResponse->getPropertyLookupSearchPath());
-        $this->assertSame($result->getPropertyLookupFetchPath(), $expectedResponse->getPropertyLookupFetchPath());
-        $this->assertSame($result->getStreetLookupSearchPath(), $expectedResponse->getStreetLookupSearchPath());
-        $this->assertSame($result->getStreetLookupFetchPath(), $expectedResponse->getStreetLookupFetchPath());
+        static::assertSame($result->getBaseUri(), $expectedResponse->getBaseUri());
+        static::assertSame($result->getStatusPath(), $expectedResponse->getStatusPath());
+        static::assertSame($result->getPropertyLookupSearchPath(), $expectedResponse->getPropertyLookupSearchPath());
+        static::assertSame($result->getPropertyLookupFetchPath(), $expectedResponse->getPropertyLookupFetchPath());
+        static::assertSame($result->getStreetLookupSearchPath(), $expectedResponse->getStreetLookupSearchPath());
+        static::assertSame($result->getStreetLookupFetchPath(), $expectedResponse->getStreetLookupFetchPath());
     }
 
     public function testFetchStatusByPostCodeExpectingValidResponse()
@@ -59,7 +59,7 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
         $result = $addressFinderClient->fetchStatus($this->createConfiguration());
 
         //Assert
-        $this->assertSame($result, true);
+        static::assertSame($result, true);
     }
 
     public function testFetchStatusExpectingExceptionToBeThrown()
@@ -80,7 +80,7 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
             }
 
             //Assert
-            $this->assertSame($caughtException->getStatusCode(), $expectedStatusCode);
+            static::assertSame($caughtException->getStatusCode(), $expectedStatusCode);
         }
     }
 
@@ -97,7 +97,7 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
         $results = $addressFinderClient->searchPropertiesByPostCode($this->createConfiguration(), $this->validPostcode);
 
         //Assert
-        $this->assertSame(count($results), count($expectedResult));
+        static::assertSame(count($results), count($expectedResult));
 
         for ($index = 0; $index < (count($results)); ++$index) {
             $this->assertModelsAreSame($results[$index], $expectedResult[$index]);
@@ -117,7 +117,7 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
         $results = $addressFinderClient->searchPropertiesByPostCode($this->createConfiguration(), $this->validPostcode);
 
         //Assert
-        $this->assertSame($results, $expectedResult);
+        static::assertSame($results, $expectedResult);
     }
 
     public function testSearchPropertiesByPostCodeExpectingExceptionToBeThrown()
@@ -139,7 +139,7 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
             }
 
             //Assert
-            $this->assertSame($caughtException->getStatusCode(), $expectedStatusCode);
+            static::assertSame($caughtException->getStatusCode(), $expectedStatusCode);
         }
     }
 
@@ -177,7 +177,7 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
             }
 
             //Assert
-            $this->assertSame($caughtException->getStatusCode(), $expectedStatusCode);
+            static::assertSame($caughtException->getStatusCode(), $expectedStatusCode);
         }
     }
 
@@ -194,7 +194,7 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
         $result = $addressFinderClient->searchStreetsByTerm($this->createConfiguration(), $this->validTerm);
 
         //Assert
-        $this->assertSame(count($result), count($expectedResult));
+        static::assertSame(count($result), count($expectedResult));
         for ($index = 0; $index < count($result); ++$index) {
             $this->assertModelsAreSame($result[$index], $expectedResult[$index]);
         }
@@ -212,7 +212,7 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
         $results = $addressFinderClient->searchStreetsByTerm($this->createConfiguration(), $this->validPostcode);
 
         //Assert
-        $this->assertSame($results, $expectedResult);
+        static::assertSame($results, $expectedResult);
     }
 
     public function testSearchStreetsByTermExpectingExpectingExceptionToBeThrown()
@@ -234,7 +234,7 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
             }
 
             //Assert
-            $this->assertSame($caughtException->getStatusCode(), $expectedStatusCode);
+            static::assertSame($caughtException->getStatusCode(), $expectedStatusCode);
         }
     }
 
@@ -273,7 +273,7 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
             }
 
             //Assert
-            $this->assertSame($caughtException->getStatusCode(), $expectedStatusCode);
+            static::assertSame($caughtException->getStatusCode(), $expectedStatusCode);
         }
     }
 
@@ -406,17 +406,17 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
 
     private function assertModelsAreSame($result, $expectedResult)
     {
-        $this->assertSame($result->getUprn(), $expectedResult->getUprn());
-        $this->assertSame($result->getUsrn(), $expectedResult->getUsrn());
-        $this->assertSame($result->getPaon(), $expectedResult->getPaon());
-        $this->assertSame($result->getStreet(), $expectedResult->getStreet());
-        $this->assertSame($result->getLocality(), $expectedResult->getLocality());
-        $this->assertSame($result->getTown(), $expectedResult->getTown());
-        $this->assertSame($result->getPostCode(), $expectedResult->getPostCode());
-        $this->assertSame($result->getEasting(), $expectedResult->getEasting());
-        $this->assertSame($result->getNorthing(), $expectedResult->getNorthing());
-        $this->assertSame($result->getExternalReference(), $expectedResult->getExternalReference());
-        $this->assertSame($result->getLogicalStatus(), $expectedResult->getLogicalStatus());
-        $this->assertSame($result->getType(), $expectedResult->getType());
+        static::assertSame($result->getUprn(), $expectedResult->getUprn());
+        static::assertSame($result->getUsrn(), $expectedResult->getUsrn());
+        static::assertSame($result->getPaon(), $expectedResult->getPaon());
+        static::assertSame($result->getStreet(), $expectedResult->getStreet());
+        static::assertSame($result->getLocality(), $expectedResult->getLocality());
+        static::assertSame($result->getTown(), $expectedResult->getTown());
+        static::assertSame($result->getPostCode(), $expectedResult->getPostCode());
+        static::assertSame($result->getEasting(), $expectedResult->getEasting());
+        static::assertSame($result->getNorthing(), $expectedResult->getNorthing());
+        static::assertSame($result->getExternalReference(), $expectedResult->getExternalReference());
+        static::assertSame($result->getLogicalStatus(), $expectedResult->getLogicalStatus());
+        static::assertSame($result->getType(), $expectedResult->getType());
     }
 }

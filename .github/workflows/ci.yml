@@ -16,12 +16,11 @@ on:
 concurrency:
   group: '${{ github.workflow }} @ ${{ github.event.pull_request.head.label || github.head_ref || github.ref }}'
   cancel-in-progress: true
-
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
   test:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     container:
       image: lorisleiva/laravel-docker:7.4
 

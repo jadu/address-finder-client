@@ -28,7 +28,7 @@ class AddressFinderClientConfigurationMapper
         try {
             $body = json_decode($responseBody, true);
 
-            if (is_null($body)) {
+            if ($body === null) {
                 $exception = new AddressFinderParsingException();
                 $exception->setResponseObject($responseBody);
                 $exception->setMessage('The response contains invalid json');

@@ -13,3 +13,4 @@ $config = new Config();
 $config->setFinder($finder);
 
 return $config;
+

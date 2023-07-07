@@ -10,25 +10,20 @@ use Jadu\AddressFinderClient\AddressFinderClient;
 use Jadu\AddressFinderClient\Exception\AddressFinderHttpResponseException;
 use Jadu\AddressFinderClient\Model\Address as AddressModel;
 use Jadu\AddressFinderClient\Model\AddressFinderClientConfigurationModel;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class AddressFinderClientTest.
  *
  * @author Jadu Ltd.
  */
-class AddressFinderClientTest extends PHPUnit_Framework_TestCase
+class AddressFinderClientTest extends TestCase
 {
     private $validPostcode = 'LE19%201RJ';
     private $validIdentifier = '10001228376';
     private $validTerm = 'merus%20court';
 
-    protected function setUp()
-    {
-        parent::setUp();
-    }
-
-    public function testFetchAddressFinderClientConfiguration()
+    public function testFetchAddressFinderClientConfiguration(): void
     {
         //Arrange
         $addressFinderClient = new AddressFinderClient(
@@ -50,7 +45,7 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
         static::assertSame($result->getStreetLookupFetchPath(), $expectedResponse->getStreetLookupFetchPath());
     }
 
-    public function testFetchStatusByPostCodeExpectingValidResponse()
+    public function testFetchStatusByPostCodeExpectingValidResponse(): void
     {
         //Arrange
         $addressFinderClient = new AddressFinderClient($this->createClient(200, null));
@@ -62,7 +57,7 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
         static::assertSame($result, true);
     }
 
-    public function testFetchStatusExpectingExceptionToBeThrown()
+    public function testFetchStatusExpectingExceptionToBeThrown(): void
     {
         //Arrange
         $expectedStatusCodes = [202, 300, 400, 401, 404, 500];
@@ -84,7 +79,7 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
         }
     }
 
-    public function testSearchPropertiesByPostCodeExpectingValidResponse()
+    public function testSearchPropertiesByPostCodeExpectingValidResponse(): void
     {
         //Arrange
         $expectedResult = [$this->createExpectedPropertyResponseOne(), $this->createExpectedPropertyResponseTwo()];
@@ -104,7 +99,7 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
         }
     }
 
-    public function testSearchPropertiesByPostCodeExpectingEmptyResponse()
+    public function testSearchPropertiesByPostCodeExpectingEmptyResponse(): void
     {
         //Arrange
         $expectedResult = [];
@@ -120,7 +115,7 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
         static::assertSame($results, $expectedResult);
     }
 
-    public function testSearchPropertiesByPostCodeExpectingExceptionToBeThrown()
+    public function testSearchPropertiesByPostCodeExpectingExceptionToBeThrown(): void
     {
         //Arrange
         $expectedStatusCodes = [202, 300, 400, 401, 404, 500];
@@ -143,7 +138,7 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
         }
     }
 
-    public function testFetchPropertyByIdentifierExpectingValidResponse()
+    public function testFetchPropertyByIdentifierExpectingValidResponse(): void
     {
         //Arrange
         $expectedResult = $this->createExpectedPropertyResponseOne();
@@ -158,7 +153,7 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
         $this->assertModelsAreSame($result, $expectedResult);
     }
 
-    public function testFetchPropertyByIdentifierPostCodeExpectingExceptionToBeThrown()
+    public function testFetchPropertyByIdentifierPostCodeExpectingExceptionToBeThrown(): void
     {
         //Arrange
         $expectedStatusCodes = [202, 300, 400, 401, 404, 500];
@@ -181,7 +176,7 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
         }
     }
 
-    public function testSearchStreetsByTermExpectingValidResponse()
+    public function testSearchStreetsByTermExpectingValidResponse(): void
     {
         //Arrange
         $expectedResult = [$this->createExpectedStreetResponseOne(), $this->createExpectedStreetResponseTwo()];
@@ -195,12 +190,13 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
 
         //Assert
         static::assertSame(count($result), count($expectedResult));
-        for ($index = 0; $index < count($result); ++$index) {
+        $resultCount = count($result);
+        for ($index = 0; $index < $resultCount; ++$index) {
             $this->assertModelsAreSame($result[$index], $expectedResult[$index]);
         }
     }
 
-    public function testSearchStreetsByTermExpectingEmptyResponse()
+    public function testSearchStreetsByTermExpectingEmptyResponse(): void
     {
         //Arrange
         $expectedResult = [];
@@ -215,7 +211,7 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
         static::assertSame($results, $expectedResult);
     }
 
-    public function testSearchStreetsByTermExpectingExpectingExceptionToBeThrown()
+    public function testSearchStreetsByTermExpectingExpectingExceptionToBeThrown(): void
     {
         //Arrange
         $expectedStatusCodes = [202, 300, 400, 401, 404, 500];
@@ -238,7 +234,7 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
         }
     }
 
-    public function testFetchStreetByIdentifierExpectingValidResponse()
+    public function testFetchStreetByIdentifierExpectingValidResponse(): void
     {
         //Arrange
         $expectedResult = $this->createExpectedStreetResponseOne();
@@ -254,7 +250,7 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
         $this->assertModelsAreSame($result, $expectedResult);
     }
 
-    public function testFetchStreetByIdentifierExpectingExceptionToBeThrown()
+    public function testFetchStreetByIdentifierExpectingExceptionToBeThrown(): void
     {
         //Arrange
         $expectedStatusCodes = [202, 300, 400, 401, 404, 500];
@@ -277,42 +273,42 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
         }
     }
 
-    private function createMockFindPropertiesByPostCodeResponse()
+    private function createMockFindPropertiesByPostCodeResponse(): string
     {
         return '{"properties":[{"identifier":"10001228376","paon":"1 UNIVERSE HOUSE","saon":null,"street_name":"MERUS COURT","locality":"MERIDIAN BUSINESS PARK","town":"BRAUNSTONE TOWN","post_town":null,"post_code":"LE19 1RJ","easting":"454801","northing":"302081","uprn":"10001228376","usrn":"2802454","logical_status":"1"},{"identifier":"45671258378","paon":"2 UNIVERSE HOUSE","saon":null,"street_name":"MERUS COURT","locality":"MERIDIAN BUSINESS PARK","town":"BRAUNSTONE TOWN","post_town":null,"post_code":"LE19 1RJ","easting":"454801","northing":"302081","uprn":"45671258378","usrn":"2935454","logical_status":"2"}]}';
     }
 
-    private function createMockGetPropertyByIdentifierResponse()
+    private function createMockGetPropertyByIdentifierResponse(): string
     {
         return '{"property":{"identifier":"10001228376","paon":"1 UNIVERSE HOUSE","saon":null,"street_name":"MERUS COURT","locality":"MERIDIAN BUSINESS PARK","town":"BRAUNSTONE TOWN","post_town":null,"post_code":"LE19 1RJ","easting":"454801","northing":"302081","uprn":"10001228376","usrn":"2802454","logical_status":"1"}}';
     }
 
-    private function createMockFindStreetsByTermResponse()
+    private function createMockFindStreetsByTermResponse(): string
     {
         return '{"streets":[{"identifier":"10001228376","street_name":"MERUS COURT","locality":"MERIDIAN BUSINESS PARK","town":"BRAUNSTONE TOWN","usrn":"2802454"},{"identifier":"45671258378","street_name":"MERUS COURT","locality":"MERIDIAN BUSINESS PARK","town":"BRAUNSTONE TOWN","usrn":"3937452"}]}';
     }
 
-    private function createMockGetStreetByIdentifierResponse()
+    private function createMockGetStreetByIdentifierResponse(): string
     {
         return '{"street":{"identifier":"10001228376","street_name":"MERUS COURT","locality":"MERIDIAN BUSINESS PARK","town":"BRAUNSTONE TOWN","usrn":"2802454"}}';
     }
 
-    private function createMockFindPropertiesByPostCodeEmptyResponse()
+    private function createMockFindPropertiesByPostCodeEmptyResponse(): string
     {
         return '{"properties":[]}';
     }
 
-    private function createMockFindStreetsByTermEmptyResponse()
+    private function createMockFindStreetsByTermEmptyResponse(): string
     {
         return '{"streets":[]}';
     }
 
-    private function createMockAddressFinderClientConfigurationModel()
+    private function createMockAddressFinderClientConfigurationModel(): string
     {
         return '{"base_uri":"http://localhost:8000","status_path":"/status","property_lookup":{"search_path":"/property/search/{postcode}","fetch_path":"/property/fetch/{identifier}"},"street_lookup":{"search_path":"/street/search/{term}","fetch_path":"/street/fetch/{identifier}"}}';
     }
 
-    private function createExpectedPropertyResponseOne()
+    private function createExpectedPropertyResponseOne(): AddressModel
     {
         $address = new AddressModel();
 
@@ -332,7 +328,7 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
         return $address;
     }
 
-    private function createExpectedPropertyResponseTwo()
+    private function createExpectedPropertyResponseTwo(): AddressModel
     {
         $address = new AddressModel();
 
@@ -352,7 +348,7 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
         return $address;
     }
 
-    private function createExpectedStreetResponseOne()
+    private function createExpectedStreetResponseOne(): AddressModel
     {
         $address = new AddressModel();
 
@@ -366,7 +362,7 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
         return $address;
     }
 
-    private function createExpectedStreetResponseTwo()
+    private function createExpectedStreetResponseTwo(): AddressModel
     {
         $address = new AddressModel();
 
@@ -380,17 +376,16 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
         return $address;
     }
 
-    private function createClient($statusCode, $testRequestResult)
+    private function createClient($statusCode, $testRequestResult): Client
     {
         $response = new Response($statusCode, [], $testRequestResult);
         $mock = new MockHandler([$response]);
         $handler = HandlerStack::create($mock);
-        $client = new Client(['handler' => $handler]);
 
-        return $client;
+        return new Client(['handler' => $handler]);
     }
 
-    private function createConfiguration()
+    private function createConfiguration(): AddressFinderClientConfigurationModel
     {
         $configuration = new AddressFinderClientConfigurationModel();
 
@@ -404,7 +399,7 @@ class AddressFinderClientTest extends PHPUnit_Framework_TestCase
         return $configuration;
     }
 
-    private function assertModelsAreSame($result, $expectedResult)
+    private function assertModelsAreSame($result, $expectedResult): void
     {
         static::assertSame($result->getUprn(), $expectedResult->getUprn());
         static::assertSame($result->getUsrn(), $expectedResult->getUsrn());

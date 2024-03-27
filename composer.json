@@ -14,7 +14,7 @@
         "php-http/message-factory": "^1.0.2",
         "php-http/discovery": "^1.14.3",
         "php-http/guzzle6-adapter": "^2.0.2",
-        "jadu/continuum-common": "~2.0",
+        "jadu/continuum-common": "~3.0|~2.0",
         "ext-json": "*"
     },
     "require-dev": {

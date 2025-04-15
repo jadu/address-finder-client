@@ -19,10 +19,46 @@ concurrency:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
-  test:
+  test74:
     runs-on: ubuntu-latest
     container:
       image: lorisleiva/laravel-docker:7.4
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
+
+      - name: Composer dependencies
+        run: composer install --no-ansi --no-interaction --no-scripts --no-suggest --no-progress --prefer-dist
+
+      - name: Run Testsuite
+        run: php -d memory_limit=-1 -d xdebug.mode=coverage vendor/bin/phpunit --coverage-text --colors=never
+
+      - name: Run php-cs-fixer
+        run: vendor/bin/php-cs-fixer --dry-run -v fix
+  test81:
+    runs-on: ubuntu-latest
+    container:
+      image: lorisleiva/laravel-docker:8.1
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
+
+      - name: Composer dependencies
+        run: composer install --no-ansi --no-interaction --no-scripts --no-suggest --no-progress --prefer-dist
+
+      - name: Run Testsuite
+        run: php -d memory_limit=-1 -d xdebug.mode=coverage vendor/bin/phpunit --coverage-text --colors=never
+
+      - name: Run php-cs-fixer
+        run: vendor/bin/php-cs-fixer --dry-run -v fix
+  test83:
+    runs-on: ubuntu-latest
+    container:
+      image: lorisleiva/laravel-docker:8.3
 
     steps:
       - uses: actions/checkout@v2

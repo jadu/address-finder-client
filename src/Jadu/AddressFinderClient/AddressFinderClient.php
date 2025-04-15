@@ -261,7 +261,7 @@ class AddressFinderClient
 
             $statusCode = $response->getStatusCode();
             if (200 == $statusCode) {
-                //This is probably not the right mapping method
+                // This is probably not the right mapping method
                 $results = $this->modelMapper->mapSearchResponse(
                     $responseBody->getContents(),
                     AddressInterface::TYPE_STREET

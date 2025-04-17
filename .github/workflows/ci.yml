@@ -54,4 +54,4 @@ jobs:
         run: php -d memory_limit=-1 -d xdebug.mode=coverage vendor/bin/phpunit --coverage-text --colors=never
 
       - name: Run php-cs-fixer
-        run: vendor/bin/php-cs-fixer --dry-run -v fix
+        run: PHP_CS_FIXER_IGNORE_ENV=1 vendor/bin/php-cs-fixer --dry-run -v fix

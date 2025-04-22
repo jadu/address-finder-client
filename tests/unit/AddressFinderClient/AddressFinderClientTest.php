@@ -25,18 +25,16 @@ class AddressFinderClientTest extends TestCase
 
     public function testFetchAddressFinderClientConfiguration(): void
     {
-        // Arrange
         $addressFinderClient = new AddressFinderClient(
             $this->createClient(200, $this->createMockAddressFinderClientConfigurationModel())
         );
         $expectedResponse = $this->createConfiguration();
-        // Act
+
         $result = $addressFinderClient->fetchAddressFinderClientConfiguration(
             'http://localhost:8000/getaddressconfiguration',
             86400
         );
 
-        // Assert
         static::assertSame($result->getBaseUri(), $expectedResponse->getBaseUri());
         static::assertSame($result->getStatusPath(), $expectedResponse->getStatusPath());
         static::assertSame($result->getPropertyLookupSearchPath(), $expectedResponse->getPropertyLookupSearchPath());
@@ -47,19 +45,15 @@ class AddressFinderClientTest extends TestCase
 
     public function testFetchStatusByPostCodeExpectingValidResponse(): void
     {
-        // Arrange
         $addressFinderClient = new AddressFinderClient($this->createClient(200, null));
 
-        // Act
         $result = $addressFinderClient->fetchStatus($this->createConfiguration());
 
-        // Assert
         static::assertSame($result, true);
     }
 
     public function testFetchStatusExpectingExceptionToBeThrown(): void
     {
-        // Arrange
         $expectedStatusCodes = [202, 300, 400, 401, 404, 500];
 
         foreach ($expectedStatusCodes as $expectedStatusCode) {
@@ -67,31 +61,26 @@ class AddressFinderClientTest extends TestCase
 
             $caughtException = null;
 
-            // Act
             try {
                 $results = $addressFinderClient->fetchStatus($this->createConfiguration());
             } catch (AddressFinderHttpResponseException $ex) {
                 $caughtException = $ex;
             }
 
-            // Assert
             static::assertSame($caughtException->getStatusCode(), $expectedStatusCode);
         }
     }
 
     public function testSearchPropertiesByPostCodeExpectingValidResponse(): void
     {
-        // Arrange
         $expectedResult = [$this->createExpectedPropertyResponseOne(), $this->createExpectedPropertyResponseTwo()];
 
         $mockResponseData = $this->createMockFindPropertiesByPostCodeResponse();
 
         $addressFinderClient = new AddressFinderClient($this->createClient(200, $mockResponseData));
 
-        // Act
         $results = $addressFinderClient->searchPropertiesByPostCode($this->createConfiguration(), $this->validPostcode);
 
-        // Assert
         static::assertSame(count($results), count($expectedResult));
 
         for ($index = 0; $index < count($results); ++$index) {
@@ -101,23 +90,19 @@ class AddressFinderClientTest extends TestCase
 
     public function testSearchPropertiesByPostCodeExpectingEmptyResponse(): void
     {
-        // Arrange
         $expectedResult = [];
 
         $mockResponseData = $this->createMockFindPropertiesByPostCodeEmptyResponse();
 
         $addressFinderClient = new AddressFinderClient($this->createClient(200, $mockResponseData));
 
-        // Act
         $results = $addressFinderClient->searchPropertiesByPostCode($this->createConfiguration(), $this->validPostcode);
 
-        // Assert
         static::assertSame($results, $expectedResult);
     }
 
     public function testSearchPropertiesByPostCodeExpectingExceptionToBeThrown(): void
     {
-        // Arrange
         $expectedStatusCodes = [202, 300, 400, 401, 404, 500];
         $mockResponseData = $this->createMockFindPropertiesByPostCodeResponse();
 
@@ -126,36 +111,30 @@ class AddressFinderClientTest extends TestCase
 
             $caughtException = null;
 
-            // Act
             try {
                 $addressFinderClient->searchPropertiesByPostCode($this->createConfiguration(), $this->validPostcode);
             } catch (AddressFinderHttpResponseException $ex) {
                 $caughtException = $ex;
             }
 
-            // Assert
             static::assertSame($caughtException->getStatusCode(), $expectedStatusCode);
         }
     }
 
     public function testFetchPropertyByIdentifierExpectingValidResponse(): void
     {
-        // Arrange
         $expectedResult = $this->createExpectedPropertyResponseOne();
 
         $mockResponseData = $this->createMockGetPropertyByIdentifierResponse();
         $addressFinderClient = new AddressFinderClient($this->createClient(200, $mockResponseData));
 
-        // Act
         $result = $addressFinderClient->fetchPropertyByIdentifier($this->createConfiguration(), $this->validIdentifier);
 
-        // Assert
         $this->assertModelsAreSame($result, $expectedResult);
     }
 
     public function testFetchPropertyByIdentifierPostCodeExpectingExceptionToBeThrown(): void
     {
-        // Arrange
         $expectedStatusCodes = [202, 300, 400, 401, 404, 500];
         $mockResponseData = $this->createMockGetPropertyByIdentifierResponse();
 
@@ -164,31 +143,26 @@ class AddressFinderClientTest extends TestCase
 
             $caughtException = null;
 
-            // Act
             try {
                 $results = $addressFinderClient->fetchPropertyByIdentifier($this->createConfiguration(), 'Invalid ID');
             } catch (AddressFinderHttpResponseException $ex) {
                 $caughtException = $ex;
             }
 
-            // Assert
             static::assertSame($caughtException->getStatusCode(), $expectedStatusCode);
         }
     }
 
     public function testSearchStreetsByTermExpectingValidResponse(): void
     {
-        // Arrange
         $expectedResult = [$this->createExpectedStreetResponseOne(), $this->createExpectedStreetResponseTwo()];
 
         $mockResponseData = $this->createMockFindStreetsByTermResponse();
 
         $addressFinderClient = new AddressFinderClient($this->createClient(200, $mockResponseData));
 
-        // Act
         $result = $addressFinderClient->searchStreetsByTerm($this->createConfiguration(), $this->validTerm);
 
-        // Assert
         static::assertSame(count($result), count($expectedResult));
         $resultCount = count($result);
         for ($index = 0; $index < $resultCount; ++$index) {
@@ -198,22 +172,18 @@ class AddressFinderClientTest extends TestCase
 
     public function testSearchStreetsByTermExpectingEmptyResponse(): void
     {
-        // Arrange
         $expectedResult = [];
         $mockResponseData = $this->createMockFindStreetsByTermEmptyResponse();
 
         $addressFinderClient = new AddressFinderClient($this->createClient(200, $mockResponseData));
 
-        // Act
         $results = $addressFinderClient->searchStreetsByTerm($this->createConfiguration(), $this->validPostcode);
 
-        // Assert
         static::assertSame($results, $expectedResult);
     }
 
     public function testSearchStreetsByTermExpectingExpectingExceptionToBeThrown(): void
     {
-        // Arrange
         $expectedStatusCodes = [202, 300, 400, 401, 404, 500];
         $mockResponseData = $this->createMockFindStreetsByTermResponse();
 
@@ -222,37 +192,31 @@ class AddressFinderClientTest extends TestCase
 
             $caughtException = null;
 
-            // Act
             try {
                 $results = $addressFinderClient->searchStreetsByTerm($this->createConfiguration(), 'Invalid ID');
             } catch (AddressFinderHttpResponseException $ex) {
                 $caughtException = $ex;
             }
 
-            // Assert
             static::assertSame($caughtException->getStatusCode(), $expectedStatusCode);
         }
     }
 
     public function testFetchStreetByIdentifierExpectingValidResponse(): void
     {
-        // Arrange
         $expectedResult = $this->createExpectedStreetResponseOne();
 
         $mockResponseData = $this->createMockGetStreetByIdentifierResponse();
 
         $addressFinderClient = new AddressFinderClient($this->createClient(200, $mockResponseData));
 
-        // Act
         $result = $addressFinderClient->fetchStreetByIdentifier($this->createConfiguration(), $this->validIdentifier);
 
-        // Assert
         $this->assertModelsAreSame($result, $expectedResult);
     }
 
     public function testFetchStreetByIdentifierExpectingExceptionToBeThrown(): void
     {
-        // Arrange
         $expectedStatusCodes = [202, 300, 400, 401, 404, 500];
         $mockResponseData = $this->createMockGetStreetByIdentifierResponse();
 
@@ -261,14 +225,12 @@ class AddressFinderClientTest extends TestCase
 
             $caughtException = null;
 
-            // Act
             try {
                 $results = $addressFinderClient->fetchStreetByIdentifier($this->createConfiguration(), 'Invalid ID');
             } catch (AddressFinderHttpResponseException $ex) {
                 $caughtException = $ex;
             }
 
-            // Assert
             static::assertSame($caughtException->getStatusCode(), $expectedStatusCode);
         }
     }

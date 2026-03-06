@@ -86,7 +86,7 @@ class AddressFinderClientConfigurationMapper
                     $config->setStreetLookupFetchPath($fetchPath);
                     break;
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $exception = new AddressFinderMappingException();
             $exception->setMessage($e->getMessage());
             throw $exception;

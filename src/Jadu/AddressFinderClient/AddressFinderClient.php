@@ -105,12 +105,11 @@ class AddressFinderClient
             $statusCode = $response->getStatusCode();
             if (200 == $statusCode) {
                 return true;
-            } else {
-                // Throw Exception for any errors less than a 400 status code.
-                $exception = new AddressFinderHttpResponseException($statusCode);
-                $exception->setMessage($response->getReasonPhrase());
-                throw $exception;
             }
+            // Throw Exception for any errors less than a 400 status code.
+            $exception = new AddressFinderHttpResponseException($statusCode);
+            $exception->setMessage($response->getReasonPhrase());
+            throw $exception;
         } catch (RequestException $e) {
             // Throw Exception for any errors grater than than a 400 status code.
             $exception = new AddressFinderHttpResponseException($e->getCode());
@@ -137,7 +136,7 @@ class AddressFinderClient
      */
     public function searchPropertiesByPostCode(
         AddressFinderClientConfigurationModel $addressFinderClientConfigurationModel,
-        $postcode
+        $postcode,
     ) {
         try {
             $endpointExtenstion = str_replace(
@@ -159,12 +158,11 @@ class AddressFinderClient
                 );
 
                 return $results;
-            } else {
-                // Throw Exception for any errors less than a 400 status code.
-                $exception = new AddressFinderHttpResponseException($statusCode);
-                $exception->setMessage($response->getReasonPhrase());
-                throw $exception;
             }
+            // Throw Exception for any errors less than a 400 status code.
+            $exception = new AddressFinderHttpResponseException($statusCode);
+            $exception->setMessage($response->getReasonPhrase());
+            throw $exception;
         } catch (RequestException $e) {
             // Throw Exception for any errors grater than than a 400 status code.
             $exception = new AddressFinderHttpResponseException($e->getCode());
@@ -191,7 +189,7 @@ class AddressFinderClient
      */
     public function fetchPropertyByIdentifier(
         AddressFinderClientConfigurationModel $addressFinderClientConfigurationModel,
-        $identifier
+        $identifier,
     ) {
         try {
             $endpointExtenstion = str_replace(
@@ -213,12 +211,11 @@ class AddressFinderClient
                 );
 
                 return $result;
-            } else {
-                // Throw Exception for any errors less than a 400 status code.
-                $exception = new AddressFinderHttpResponseException($statusCode);
-                $exception->setMessage($response->getReasonPhrase());
-                throw $exception;
             }
+            // Throw Exception for any errors less than a 400 status code.
+            $exception = new AddressFinderHttpResponseException($statusCode);
+            $exception->setMessage($response->getReasonPhrase());
+            throw $exception;
         } catch (RequestException $e) {
             // Throw Exception for any errors grater than than a 400 status code.
             $exception = new AddressFinderHttpResponseException($e->getCode());
@@ -245,7 +242,7 @@ class AddressFinderClient
      */
     public function searchStreetsByTerm(
         AddressFinderClientConfigurationModel $addressFinderClientConfigurationModel,
-        $term
+        $term,
     ) {
         try {
             $endpointExtenstion = str_replace(
@@ -268,12 +265,11 @@ class AddressFinderClient
                 );
 
                 return $results;
-            } else {
-                // Throw Exception for any errors less than a 400 status code.
-                $exception = new AddressFinderHttpResponseException($statusCode);
-                $exception->setMessage($response->getReasonPhrase());
-                throw $exception;
             }
+            // Throw Exception for any errors less than a 400 status code.
+            $exception = new AddressFinderHttpResponseException($statusCode);
+            $exception->setMessage($response->getReasonPhrase());
+            throw $exception;
         } catch (RequestException $e) {
             // Throw Exception for any errors grater than than a 400 status code.
             $exception = new AddressFinderHttpResponseException($e->getCode());
@@ -300,7 +296,7 @@ class AddressFinderClient
      */
     public function fetchStreetByIdentifier(
         AddressFinderClientConfigurationModel $addressFinderClientConfigurationModel,
-        $identifier
+        $identifier,
     ) {
         try {
             $endpointExtenstion = str_replace(
@@ -322,12 +318,11 @@ class AddressFinderClient
                 );
 
                 return $result;
-            } else {
-                // Throw Exception for any errors less than a 400 status code.
-                $exception = new AddressFinderHttpResponseException($statusCode);
-                $exception->setMessage($response->getReasonPhrase());
-                throw $exception;
             }
+            // Throw Exception for any errors less than a 400 status code.
+            $exception = new AddressFinderHttpResponseException($statusCode);
+            $exception->setMessage($response->getReasonPhrase());
+            throw $exception;
         } catch (RequestException $e) {
             // Throw Exception for any errors grater than than a 400 status code.
             $exception = new AddressFinderHttpResponseException($e->getCode());

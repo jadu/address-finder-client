@@ -45,13 +45,12 @@ class ModelMapper
                 $streets = $body['streets'];
 
                 return $this->mapSearchResponseArray($streets, $responseType);
-            } else {
-                $exception = new AddressFinderParsingException();
-                $exception->setMessage(
-                    'There is no root level key with the name "properties" or "streets" in the json response'
-                );
-                throw $exception;
             }
+            $exception = new AddressFinderParsingException();
+            $exception->setMessage(
+                'There is no root level key with the name "properties" or "streets" in the json response'
+            );
+            throw $exception;
         } catch (AddressFinderParsingException $e) {
             throw $e;
         } catch (AddressFinderMappingException $e) {
